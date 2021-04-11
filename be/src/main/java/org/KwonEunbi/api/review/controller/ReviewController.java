@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import org.KwonEunbi.api.booking.domain.BookingExhbnDTO;
+import org.KwonEunbi.api.exhibition.domain.Exhbn;
+import org.KwonEunbi.api.exhibition.service.ExhbnServiceImpl;
+import org.KwonEunbi.api.review.domain.ReviewDTO;
+import org.KwonEunbi.api.review.domain.ReviewExhbnDTO;
+import org.KwonEunbi.api.user.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +29,20 @@ import org.KwonEunbi.api.common.controller.AbstractController;
 
 @RestController @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/reviews") @RequiredArgsConstructor 
-public class ReviewController extends AbstractController<Review>{
+public class ReviewController{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	final ReviewServiceImpl service;
+	final UserServiceImpl userService;
+	final ExhbnServiceImpl exhbnService;
 	
 	@PostMapping("")
-	public ResponseEntity<Long> save(@RequestBody Review t) {
-		return ResponseEntity.ok(service.save(t));
+	public ResponseEntity<Long> save(@RequestBody ReviewDTO r) {
+		r.setUser(userService.getOne(r.getUserNum()));
+		r.setExhbn(exhbnService.getOne(r.getExhbnNum()));
+		ResponseEntity.ok(service.add(r));
+		Exhbn e = exhbnService.getOne(r.getExhbn().getExhbnNum());
+		e.setTotalScore(exhbnService.totalScore(r.getExhbn().getExhbnNum()));
+		return null;
 	}
 	@DeleteMapping("")
 	public ResponseEntity<Long> delete(@RequestBody Review t) {
@@ -50,26 +63,41 @@ public class ReviewController extends AbstractController<Review>{
 				review.getScore().equals("0"))) {
 			r.setScore(review.getScore());
 		}
-		return ResponseEntity.ok(service.update(r));
+		ResponseEntity.ok(service.update(r));
+		Exhbn e = exhbnService.getOne(review.getExhbn().getExhbnNum());
+		e.setTotalScore(exhbnService.totalScore(review.getExhbn().getExhbnNum()));
+		return null;
 	}
 	@GetMapping("/count")
 	public ResponseEntity<Long> count() {
 		return ResponseEntity.ok(service.count());
 	}
 	@GetMapping("")
-	public ResponseEntity<List<Review>> findAll() {
+	public ResponseEntity<List<ReviewExhbnDTO>> findAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
-	@GetMapping("/one/{id}")
-	public ResponseEntity<Review> getOne(@PathVariable long id) {
-		return ResponseEntity.ok(service.getOne(id));
+	@GetMapping("/{id}")
+	public ResponseEntity<ReviewExhbnDTO> getOne(@PathVariable long id) {
+		return ResponseEntity.ok(service.findUsername(id));
 	}
 	@GetMapping("/find/{id}")
 	public ResponseEntity<Optional<Review>> findById(@PathVariable long id) {
 		return ResponseEntity.ok(service.findById(id));
 	}
+	@GetMapping("/exhbn/{id}")
+	public ResponseEntity<List<ReviewExhbnDTO>> findByExhbn(@PathVariable long id) {
+		return ResponseEntity.ok(service.findByExhbn(id));
+	}
 	@GetMapping("/exists/{id}")
 	public ResponseEntity<Boolean> existsById(@PathVariable long id) {
 		return ResponseEntity.ok(service.existsById(id));
+	}
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<ReviewExhbnDTO>> findByUser(@PathVariable long id){
+		return ResponseEntity.ok(service.findByUser(id));
+	}
+	@GetMapping("/review/{id}")
+	public ResponseEntity<ReviewExhbnDTO> findByReveiwNum(@PathVariable long id){
+		return ResponseEntity.ok(service.findByReveiwNum(id));
 	}
 }

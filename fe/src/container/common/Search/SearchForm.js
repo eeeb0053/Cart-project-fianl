@@ -13,6 +13,20 @@ import { Link } from 'react-router-dom';
 
 const SearchForm = ({ history }) => {
   const [ exhbnTitle, setExhbnTitle ] = useState('')
+  const searchTitle = () => {
+    
+  }
+
+  const onKeyPress = e => {
+    if(e.key == 'Enter'){
+      onClick()
+    }
+  }
+
+  const onClick = e => {
+    sessionStorage.setItem('exhbnTitle', exhbnTitle)
+    history.push(LISTING_SEARCH_POST_PAGE)
+  }
 
   return (
     <FormWrapper>
@@ -24,19 +38,19 @@ const SearchForm = ({ history }) => {
               defaultValue=""
               placeholder="검색하기"
               size="large"
-              onChange={e => {setExhbnTitle(`${ e.target.value }`)}}
+              onChange = {e => {setExhbnTitle(`${ e.target.value }`)}}
+              onKeyPress = { onKeyPress }
             />
         </div>
       </ComponentWrapper>
-      <Link to = {LISTING_SEARCH_POST_PAGE}>
       <Button
         type="primary"
         htmlType="submit"
         size="large"
-        onClick={() => localStorage.setItem('exhbnTitle', exhbnTitle)}
+        onClick={ onClick }
       >
         전시 검색
-      </Button></Link>
+      </Button>
     </FormWrapper>
   );
 };

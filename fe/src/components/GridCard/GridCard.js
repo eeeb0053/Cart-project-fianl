@@ -28,7 +28,7 @@ const GridCard = ({
     <GridCardWrapper className={`grid_card ${classes}`.trim()}>
       <ImageWrapper className="media_wrapper">{children}</ImageWrapper>
       <ContentWrapper className="content_wrapper">
-        {location && <LocationArea>{location}</LocationArea>}
+        {location == 'undefined' ? <LocationArea>서소문본관</LocationArea> : <LocationArea>{location}</LocationArea>}
         {title && <TitleArea>{title}</TitleArea>}
         <MetaWrapper className="meta_wrapper">
           {date && <DateArea className="date">{date}</DateArea>}

@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.KwonEunbi.api.analysis.domain.Analysis;
 import org.KwonEunbi.api.booking.domain.Booking;
 import org.KwonEunbi.api.hall.domain.Hall;
@@ -25,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.KwonEunbi.api.user.domain.UserVO;
+import org.KwonEunbi.api.wishilist.domain.Wishlist;
 
 @Entity
 @Getter
 @Table(name = "exhbns")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) @NoArgsConstructor
 public class Exhbn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +47,8 @@ public class Exhbn {
     private String exhbnContent;
     @Column(name = "exhbn_image")
     private String exhbnImage;
+    @Column(name = "total_score")
+    private Float totalScore;
 
     @JsonBackReference(value = "hall")
     @ManyToOne
@@ -58,16 +56,37 @@ public class Exhbn {
     private Hall hall;
 
     @JsonManagedReference @JsonIgnore
-    @OneToMany(mappedBy = "exhbn")
+    @OneToMany(mappedBy = "exhbn",cascade = CascadeType.REMOVE)
     private List<Analysis> analysisList = new ArrayList<>();
 
     @JsonManagedReference @JsonIgnore
-    @OneToMany(mappedBy = "exhbn")
+    @OneToMany(mappedBy = "exhbn",cascade = CascadeType.REMOVE)
     private List<Booking> bookingList = new ArrayList<>();
 
     @JsonManagedReference @JsonIgnore
-    @OneToMany(mappedBy = "exhbn")
+    @OneToMany(mappedBy = "exhbn",cascade = CascadeType.REMOVE)
     private List<Review> reviewList = new ArrayList<>();
+
+    @JsonManagedReference @JsonIgnore
+    @OneToMany(mappedBy = "exhbn", cascade = CascadeType.REMOVE)
+    private List<Wishlist> wishLists = new ArrayList<>();
+
+    @Builder
+    public Exhbn(long exhbnNum, String exhbnTitle, Date startDate, Date endDate,
+                   String exhbnGenre, String exhbnPrice, String exhbnArtist,
+                   String exhbnContent, String exhbnImage, Float totalScore, Hall hall) {
+        this.exhbnNum = exhbnNum;
+        this.exhbnTitle = exhbnTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.exhbnGenre = exhbnGenre;
+        this.exhbnPrice = exhbnPrice;
+        this.exhbnArtist = exhbnArtist;
+        this.exhbnContent = exhbnContent;
+        this.exhbnImage = exhbnImage;
+        this.totalScore = totalScore;
+        this.hall = hall;
+    }
 
     public void setExhbnNum(long exhbnNum) {
         this.exhbnNum = exhbnNum;
@@ -104,6 +123,8 @@ public class Exhbn {
     public void setExhbnImage(String exhbnImage) {
         this.exhbnImage = exhbnImage;
     }
+
+    public void setTotalScore(Float totalScore) { this.totalScore = totalScore; }
 
     public void setHall(Hall hall) {
         this.hall = hall;

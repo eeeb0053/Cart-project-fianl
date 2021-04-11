@@ -17,19 +17,24 @@ const ReviewForm = () => {
   const [ regDate ] = useState(new Date())
   const [ score, setScore ] = useState(0)
   const desc = ['1', '2', '3', '4', '5'];
+  const user = JSON.parse(localStorage.getItem("user"))
+  const exhbnNum =  sessionStorage.getItem("exhbnNum")
 
   const onSubmit = e => {
+    const del = window.confirm("등록 하시겠습니까?")
+    if(del){
     axios({
         url: `http://localhost:8080/reviews`,
         method: 'post',
         headers: {'Content-Type':'application/json','Authorization': 'JWT fefege...'},
-        data: { reviewTitle, reviewContent, regDate, score }
+        data: { reviewTitle, reviewContent, regDate, 
+                score, userNum: user.userNum, exhbnNum }
     }).then(res => {
         alert(`리뷰가 등록되었습니다.`)
         window.location.reload()
     }).catch(err => {
         alert(err.response)
-    })
+    })}
   };
 
   const handleChange = value => {

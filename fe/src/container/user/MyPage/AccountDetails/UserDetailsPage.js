@@ -10,13 +10,12 @@ import {
 import { Menu, Popover } from 'antd';
 import { Container, Image, Heading, Text, Loader, ProfilePicLoader } from 'components/index';
 import { AuthProvider, AuthContext } from 'context/index';
-import { UserFavItemLists, AgentContact } from 'container/index';
+import { UserFavItemLists, ReviewList, UpdateUser, BookingList } from 'container/index';
 import useDataApi from 'library/hooks/useDataApi';
 import {
-  ADD_EXHBN_PAGE,
   USER_PROFILE_FAVOURITE,
-  USER_PROFILE_CONTACT,
-  UPDATE_USER_PAGE
+  UPDATE_USER_PAGE,
+  REVIEW_LIST_PAGE
 } from 'settings/constant';
 import AgentDetailsPage, {
   BannerSection,
@@ -24,9 +23,9 @@ import AgentDetailsPage, {
   ProfileImage,
   ProfileInformationArea,
   ProfileInformation,
-  SocialAccount,
   NavigationArea,
 } from 'container/user/MyPage/AccountDetails/UserDetails.style';
+import { ButtonBox } from 'container/exhibition/ExhibitionDetail.style';
 
 const ProfileNavigation = (props) => {
   const { match, className } = props;
@@ -46,7 +45,7 @@ const ProfileNavigation = (props) => {
             </NavLink>
           </Menu.Item>
           <Menu.Item key="2">
-            <NavLink to={`${match.url}${USER_PROFILE_CONTACT}`}>
+            <NavLink to={`${match.url}${REVIEW_LIST_PAGE}`}>
               내가 쓴 리뷰
             </NavLink>
           </Menu.Item>
@@ -65,27 +64,27 @@ const ProfileRoute = (props) => {
   const { match } = props;
   return (
     <Container fluid={true}>
-      <Route
-        path={`${match.url}`}
-        // component={MyBookingList}
+      <Route exact
+        path={`${match.path}`}
+        component={BookingList}
       />
       <Route
         path={`${match.path}${USER_PROFILE_FAVOURITE}`}
         component={UserFavItemLists}
       />
       <Route
-        path={`${match.path}${USER_PROFILE_CONTACT}`}
-        // component={MyReviewList}
+        path={`${match.path}${REVIEW_LIST_PAGE}`}
+        component={ReviewList}
       />
       <Route
         path={`${match.path}${UPDATE_USER_PAGE}`}
-        component={UserFavItemLists}
+        component={UpdateUser}
       />
     </Container>
   );
 };
 
-const AgentProfileInfo = () => {
+const AgentProfileInfo = ({ match }) => {
   const { data, loading } = useDataApi('/data/agent.json');
   if (isEmpty(data) || loading) return <Loader />;
   const {
@@ -97,8 +96,8 @@ const AgentProfileInfo = () => {
     social_profile,
   } = data[0];
 
-  const username = `${last_name} ${first_name}`;
-
+  const user = JSON.parse(localStorage.getItem("user"))
+ 
   return (
     <Fragment>
       <BannerSection>
@@ -115,38 +114,9 @@ const AgentProfileInfo = () => {
           </ProfileImage>
           <ProfileInformationArea>
             <ProfileInformation>
-              <Heading content={username} />
-              <Text content={content} />
+              <Heading content={`${user.name} 님의 MY PAGE`} />
+              <Text content={`${user.name}님! 찜한 전시회를 예약해보세요`} />
             </ProfileInformation>
-            <SocialAccount>
-              <Popover content="Twitter">
-                <a
-                  href={social_profile.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IoLogoTwitter className="twitter" />
-                </a>
-              </Popover>
-              <Popover content="Facebook">
-                <a
-                  href={social_profile.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IoLogoFacebook className="facebook" />
-                </a>
-              </Popover>
-              <Popover content="Instagram">
-                <a
-                  href={social_profile.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IoLogoInstagram className="instagram" />
-                </a>
-              </Popover>
-            </SocialAccount>
           </ProfileInformationArea>
         </Container>
       </UserInfoArea>
@@ -154,7 +124,7 @@ const AgentProfileInfo = () => {
   );
 };
 
-export default function UserDetailsPage(props) {
+const UserDetailsPage = (props) => {
   return (
     <AgentDetailsPage>
       <AuthProvider>
@@ -165,3 +135,6 @@ export default function UserDetailsPage(props) {
     </AgentDetailsPage>
   );
 }
+
+
+export default UserDetailsPage;

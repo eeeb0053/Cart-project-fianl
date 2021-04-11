@@ -3,12 +3,11 @@ import { Heading, TextLink, Container, SectionGrid, PostPlaceholder, SectionTitl
 import useWindowSize from 'library/hooks/useWindowSize';
 import useDataApi from 'library/hooks/useDataApi';
 import {
-  EXHBN_LIST_PAGE,
   EXHBN_DETAIL_PAGE
 } from 'settings/constant';
 
 const PopularExhbn = () => {
-  const { data, loading } = useDataApi('http://localhost:8080/exhbns/all');
+  const { data, loading } = useDataApi('http://localhost:8080/exhbns/topList');
   const { width } = useWindowSize();
 
   let posts = data;
@@ -35,7 +34,6 @@ const PopularExhbn = () => {
     <Container fluid={true}>
       <SectionTitle
         title={<Heading content="TOP10: 인기 전시" />}
-        link={<TextLink link={EXHBN_LIST_PAGE} content="Show all" />}
       />
 
       <SectionGrid

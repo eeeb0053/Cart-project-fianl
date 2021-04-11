@@ -49,6 +49,54 @@ const Wrapper = styled.div`
 
 `;
 
+export const ListWrapper = styled.div`
+  display: flex;
+  align: left;
+  flex-wrap: wrap;
+  width: 150%;
+  margin-left: 50px;
+  margin-top: 20px;
+
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 1px solid #616266;
+    border-radius: 5px; 
+    background-color: rgba(0,0,0,0);
+    color: #616266;
+    padding: 5px;
+    margin-left: 2px;
+  }
+
+  .cancle-btn {
+    border: 1px solid #616266;
+    border-radius: 5px; 
+    background-color: rgba(0,0,0,0);
+    color: #616266;
+    padding: 5px;
+    margin-left: 2px;
+  }
+  
+  .btn:hover {
+    border: 1px solid #549400;
+    color: #549400;
+    cursor: pointer;
+  }
+
+  .cancle-btn:hover {
+    border: 1px solid #b00000;
+    color: #b00000;
+    cursor: pointer;
+  }
+
+`;
+
 export const FieldWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -170,6 +218,32 @@ export const TextInfo = styled.p`
   }
   @media (max-width: 1440px) {
     font-size: 15px;
+  }
+  .link {
+    color: ${themeGet('text.2', '#22588a')};
+    &:hover {
+      color: ${themeGet('primary.0', '#22588a')};
+    }
+  }
+`;
+
+export const TextLink = styled.p`
+  color: ${themeGet('text.2', '#205d96')};
+  font-size: 14px;
+  line-height: 30px;
+  margin-bottom: 15px;
+  margin-top: 2px;
+  @media (max-width: 1600px) {
+    font-size: 15px;
+  }
+  @media (max-width: 1440px) {
+    font-size: 15px;
+  }
+  @media (max-width: 1440px) {
+    font-size: 15px;
+  }
+  &:hover {
+    color: ${themeGet('primary.0', '#205d96')};
   }
 `;
 

@@ -3,7 +3,7 @@ import { themeGet } from '@styled-system/theme-get';
 const UserDetailsPage = styled.div``;
 
 export const BannerSection = styled.div`
-  height: 400px;
+  height: 200px;
   background-color: #e9e8ec;
   position: relative;
   @media (max-width: 480px) {
@@ -52,7 +52,6 @@ export const ProfileInformationArea = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-
   @media (max-width: 667px) {
     flex-direction: column;
     justify-content: flex-start;
@@ -65,7 +64,6 @@ export const ProfileInformation = styled.div`
     max-width: 864px;
     width: 100%;
   }
-
   h2 {
     font-size: 25px;
     line-height: 28px;
@@ -77,7 +75,6 @@ export const ProfileInformation = styled.div`
       margin-bottom: 15px;
     }
   }
-
   p {
     font-size: 15px;
     line-height: 25px;
@@ -88,39 +85,31 @@ export const ProfileInformation = styled.div`
 
 export const SocialAccount = styled.div`
   flex-shrink: 0;
-
   a {
     margin-right: 30px;
   }
-
   svg {
     width: 18px;
     height: 18px;
-
     fill: ${themeGet('color.6', '#273343')};
     cursor: pointer;
     transition: all 0.2s ease;
-
     &:first-child {
       margin-left: 0;
     }
-
     &:last-child {
       margin-right: 0;
     }
-
     &.twitter {
       &:hover {
         fill: ${themeGet('color.8', '#55ADEE')};
       }
     }
-
     &.facebook {
       &:hover {
         fill: ${themeGet('color.7', '#3b5998')};
       }
     }
-
     &.instagram {
       &:hover {
         fill: ${themeGet('color.12', '#e4405f')};
@@ -133,16 +122,13 @@ export const NavigationArea = styled.div`
   margin-bottom: 30px;
   border-top: 1px solid ${themeGet('border.3', '#E6E6E6')};
   border-bottom: 1px solid ${themeGet('border.3', '#E6E6E6')};
-
   > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     @media (max-width: 667px) {
       flex-wrap: wrap;
     }
-
     @media (max-width: 480px) {
       flex-direction: column;
       padding-left: 25px;
@@ -150,7 +136,6 @@ export const NavigationArea = styled.div`
       padding-bottom: 20px;
     }
   }
-
   .add_card {
     display: inline-flex;
     align-items: center;
@@ -161,58 +146,47 @@ export const NavigationArea = styled.div`
     color: ${themeGet('color.1', '#ffffff')};
     background-color: ${themeGet('primary.0', '#616266')};
     transition: all 0.3s ease;
-
     @media (max-width: 480px) {
       width: 100%;
       display: flex;
       justify-content: center;
     }
-
     svg {
       font-size: 22px;
       margin-right: 5px;
       margin-left: -5px;
     }
-
     &:hover,
     &:focus {
       background-color: ${themeGet('primary.1', '#399C9F')};
     }
   }
-
   .ant-menu {
     border: 0;
     display: flex;
     align-items: center;
-
     @media (max-width: 480px) {
       flex-direction: column;
       width: 100%;
       padding-bottom: 10px;
     }
-
     li {
       margin: 0 !important;
       height: auto;
       line-height: 1;
-
       @media (max-width: 480px) {
         width: 100%;
         padding: 0;
       }
-
       &.ant-menu-item-selected {
         background-color: transparent;
       }
-
       &:first-child {
         padding-left: 0;
       }
-
       &:last-child {
         padding-right: 0;
       }
-
       a {
         display: block;
         font-size: 15px;
@@ -220,11 +194,9 @@ export const NavigationArea = styled.div`
         padding: 23px 8px;
         color: ${themeGet('text.0', '#2C2C2C')};
         position: relative;
-
         @media (max-width: 480px) {
           padding: 15px 10px;
         }
-
         &::after {
           content: '';
           display: block;
@@ -239,17 +211,14 @@ export const NavigationArea = styled.div`
           background-color: ${themeGet('primary.0', '#616266')};
           transition: all 0.3s ease;
         }
-
         &.active {
           font-weight: 700;
-
           &::after {
             opacity: 1;
             visibility: visible;
             width: 100%;
           }
         }
-
         &:hover {
           &::after {
             opacity: 1;
@@ -257,7 +226,6 @@ export const NavigationArea = styled.div`
             width: 100%;
           }
         }
-
         &:hover,
         &:focus {
           text-decoration: none;
@@ -269,20 +237,17 @@ export const NavigationArea = styled.div`
 
 export const AgentContactWrapper = styled.div`
   padding: 25px 0 30px;
-
   > h2 {
     color: ${themeGet('text.0', '#2C2C2C')};
     font-size: 25px;
     line-height: 30px;
     font-weight: 700;
     margin-bottom: 22px;
-
     @media (max-width: 480px) {
       font-size: 17px;
       line-height: 21px;
     }
   }
-
   > .ant-row {
     > div {
       @media (max-width: 991px) {
@@ -297,7 +262,6 @@ export const ContactDetails = styled.div`
   padding: 30px;
   box-sizing: border-box;
   background-color: ${themeGet('color.2', '#F7F7F7')};
-
   > h3 {
     margin-top: 30px;
     &:first-child {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Heading, Text, TextLink } from 'components/index';
 import { RenderReservationForm } from 'container/index';
 
-const CardHeader = ({ price, priceStyle, pricePeriodStyle, linkStyle }) => {
+const CardHeader = ({ price, priceStyle, pricePeriodStyle }) => {
   return (
     <Fragment>
       <Heading

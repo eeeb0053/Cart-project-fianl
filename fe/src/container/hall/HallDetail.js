@@ -38,8 +38,6 @@ const HallDetail = ({ match }) => {
 
   return (
     <HallPageWrapper>
-     {/*  { localStorage.getItem("user").admin === '관리자' ? */}
-     {/*        : <></>} */}
       <Container>
         <Row gutter={30}>
           <VerticalTab />

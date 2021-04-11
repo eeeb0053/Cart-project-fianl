@@ -59,7 +59,7 @@ const HallGrid = () => {
                       link={`${HALL_LIST_PAGE}/${index+1}`}
                       imageSrc={post.hallImage}
                       title={post.hallName}
-                      meta={`Show list`}
+                      meta={`Show all`}
                       number={index+1}
                     />
                   </GlideSlide>

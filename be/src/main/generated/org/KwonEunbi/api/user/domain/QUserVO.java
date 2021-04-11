@@ -44,9 +44,13 @@ public class QUserVO extends EntityPathBase<UserVO> {
 
     public final ListPath<Role, EnumPath<Role>> roles = this.<Role, EnumPath<Role>>createList("roles", Role.class, EnumPath.class, PathInits.DIRECT2);
 
+    public final StringPath userImage = createString("userImage");
+
     public final StringPath username = createString("username");
 
     public final NumberPath<Long> userNum = createNumber("userNum", Long.class);
+
+    public final ListPath<org.KwonEunbi.api.wishilist.domain.Wishlist, org.KwonEunbi.api.wishilist.domain.QWishlist> wishLists = this.<org.KwonEunbi.api.wishilist.domain.Wishlist, org.KwonEunbi.api.wishilist.domain.QWishlist>createList("wishLists", org.KwonEunbi.api.wishilist.domain.Wishlist.class, org.KwonEunbi.api.wishilist.domain.QWishlist.class, PathInits.DIRECT2);
 
     public QUserVO(String variable) {
         super(UserVO.class, forVariable(variable));

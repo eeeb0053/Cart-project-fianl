@@ -3,31 +3,32 @@ package org.KwonEunbi.api.hall.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.KwonEunbi.api.analysis.service.AnalysisServiceImpl;
-import org.KwonEunbi.api.common.controller.AbstractController;
 import org.KwonEunbi.api.hall.domain.Hall;
 import org.KwonEunbi.api.hall.domain.HallDTO;
+import org.KwonEunbi.api.common.service.FilesStorageService;
 import org.KwonEunbi.api.hall.service.HallServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/halls")
-public class HallController extends AbstractController<Hall> {
+public class HallController{
 	final HallServiceImpl service;
+	final FilesStorageService storageService;;
 
 	@PostMapping("")
 	public ResponseEntity<Long> save(@RequestBody Hall h) {
 		return ResponseEntity.ok(service.save(h));
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<Long> delete(@RequestBody Hall h) {
-		return ResponseEntity.ok(service.delete(h));
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Long> delete(@PathVariable long id) {
+		return ResponseEntity.ok(service.delete(id));
 	}
 
 	@GetMapping("/count")
@@ -86,4 +87,5 @@ public class HallController extends AbstractController<Hall> {
 		}
 		return ResponseEntity.ok(service.save(h));
 	}
+
 }

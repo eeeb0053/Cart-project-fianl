@@ -128,6 +128,71 @@ const ReviewWrapper = styled.div`
   }
 `;
 
+export const Wrapper = styled.div`
+display: flex;
+align: center;
+flex-wrap: wrap;
+width: 50%;
+margin-left: 300px;
+margin-top: 50px;
+
+.container {
+  height: 100%;
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  border: 1px solid #616266;
+  border-radius: 5px; 
+  background-color: rgba(0,0,0,0);
+  color: #616266;
+  padding: 5px;
+  margin-left: 2px;
+}
+
+.cancle-btn {
+  border: 1px solid #616266;
+  border-radius: 5px; 
+  background-color: rgba(0,0,0,0);
+  color: #616266;
+  padding: 5px;
+  margin-left: 2px;
+}
+
+.btn:hover {
+  border: 1px solid #549400;
+  color: #549400;
+  cursor: pointer;
+}
+
+.cancle-btn:hover {
+  border: 1px solid #b00000;
+  color: #b00000;
+  cursor: pointer;
+}
+
+`;
+
+export const Info = styled.div`
+  float: left;
+  position: absolute;
+  left: 0 0 29px;
+  width: 100%;
+  ul {
+    color: ${themeGet('text.0', '#2C2C2C')};
+    font-size: 15px;
+  }
+  strong {
+    color: ${themeGet('text.0', '#2C2C2C')};
+    padding: 0px 50px 0px 0px;
+  }
+  
+`;
+
+
 export const FilterElement = styled.div`
   font-size: 13px;
   color: ${themeGet('text.0', '#2C2C2C')};
@@ -167,12 +232,49 @@ export const FilterElement = styled.div`
   }
 `;
 
+export const RatingMeta = styled.div`
+  display: flex;
+  align-items: left;
+  color: ${themeGet('text.0', '#2C2C2C')};
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  width: 100%;
+  @media (max-width: 767px) {
+  }
+  i {
+    color: ${themeGet('primary.0', '#616266')};
+  }
+  svg {
+    fill: ${themeGet('primary.0', '#616266')};
+  }
+  strong {
+    font-weight: 700;
+    margin-left: 3px;
+    margin-top: -1px;
+  }
+  p{
+    width: 95px;
+  }
+`;
+
 export const RatingWrapper = styled.span`
   display: inline-flex;
   align-items: center;
   flex: 1;
   color: ${themeGet('primary.0', '#616266')};
+  p {
+    margin-top: 20px;
+  }
 `;
+
+export const PopoverWrapper = styled.span`
+  font-size: 13px;
+  div {
+    margin-top: 5px;
+    align-items: right;
+  }
+`
 
 export const HeaderSection = styled.div`
   display: flex;
@@ -426,6 +528,64 @@ export const Form = styled.form`
     margin-top: 40px;
     margin-bottom: 0;
   }
+`;
+
+export const ListWrapper = styled.div`
+  display: flex;
+  align: left;
+  flex-wrap: wrap;
+  margin-left: 50px;
+  margin-top: 20px;
+  width: 150%;
+
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn {
+    border: 1px solid #616266;
+    border-radius: 5px; 
+    background-color: rgba(0,0,0,0);
+    color: #616266;
+    padding: 5px;
+    margin-left: 2px;
+  }
+
+  .cancle-btn {
+    border: 1px solid #616266;
+    border-radius: 5px; 
+    background-color: rgba(0,0,0,0);
+    color: #616266;
+    padding: 5px;
+    margin-left: 2px;
+  }
+  
+  .btn:hover {
+    border: 1px solid #549400;
+    color: #549400;
+    cursor: pointer;
+  }
+
+  .cancle-btn:hover {
+    border: 1px solid #b00000;
+    color: #b00000;
+    cursor: pointer;
+  }
+
+`;
+
+export const Title2 = styled.h2`
+  color: ${themeGet('text.4', '#777777')};
+  font-size: 20px;
+  line-height: 54px;
+  font-weight: 700;
+  margin-bottom: 0;
+  margin-top: 0px;
+  margin-right: 800px;
 `;
 
 export default ReviewWrapper;

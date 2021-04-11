@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useForm } from 'react-hook-form';
+import { FileInput } from 'container/index'
 import { Row, Col, Input, Button } from 'antd';
 import { FormControl } from 'components/index';
 import { FormHeader, Title, FormContent, FormAction } from 'container/exhibition/AddExhibition.style';
@@ -15,6 +15,17 @@ const AddHall = ()  => {
   })
   const { hallName, hallLocation, hallTime, hallClosed,
     hallPnumber, hallInfo, hallImage } = addHall
+    const [file, setFile] = useState({ 
+      fileName: null, 
+      fileURL: null 
+    });
+  
+    const onFileChange = (file) => {
+      setFile({
+        fileName: file.name,
+        fileURL: file.url,
+      });
+    }
   
   const onChange = useCallback(e => {
     setAddHall({...addHall, [e.target.name]: e.target.value})
@@ -55,9 +66,7 @@ const AddHall = ()  => {
               label="전시관 이미지"
               htmlFor="hallImage"
               >
-            <input name="hallImage" value={hallImage}
-                   type="file" accept="image/*" required
-                   onChange = { onChange } />     
+            <FileInput onFileChange={onFileChange} name={file.fileName}/> 
             </FormControl>
           </Col>
         </Row>

@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 	public Optional<UserVO> one(long id) {
 		return userRepo.findById(id);
 	}
-
+	@Override public UserVO getOne(long id){ return userRepo.getOne(id);}
 	@Override
 	public String edit(UserVO userVo) {
 		UserVO user = userRepo.save(userVo);
@@ -113,4 +113,13 @@ public class UserServiceImpl implements UserService{
 	public String refresh(String username) {
 		return provider.createToken(username, userRepo.findByUsername(username).getRoles());
 	}
+	@Override
+	public String findId(long id){
+		return userRepo.findId(id);
+	}
+	@Override public boolean checkId(String id) {
+		return (userRepo.checkId(id) != null ? true : false); }
+
+	@Override public boolean checkEmail(String email) {
+		return (userRepo.checkEmail(email) != null ? true : false); }
 }

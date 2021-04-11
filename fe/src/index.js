@@ -13,7 +13,7 @@ const Index = () => (
       <GlobalStyles />
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <App/>
         </AuthProvider>
       </BrowserRouter>
     </>

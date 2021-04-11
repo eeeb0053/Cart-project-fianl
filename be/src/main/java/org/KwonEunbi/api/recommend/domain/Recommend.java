@@ -10,12 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.KwonEunbi.api.analysis.domain.Analysis;
 
 import lombok.Getter;
 
-@Entity @Getter @Table(name = "recommends")
+@Entity @Getter @Table(name = "recommends") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Recommend {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "rec_num") private long recNum;

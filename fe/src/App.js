@@ -11,10 +11,13 @@ import {
   USER_PROFILE_PAGE,
   USER_ACCOUNT_SETTINGS_PAGE,
   BOOKING_PAGE,
-  BOOKING_LIST_PAGE,
+  REVIEW_DETAIL_PAGE,
   BOOKING_DETAIL_PAGE,
   EXHBN_DETAIL_PAGE,
-  EXHBN_LIST_PAGE,
+  EXHBN_ALL_LIST_PAGE,
+  EXHBN_RECOMMEND_LIST_PAGE,
+  EXHBN_SHOWING_LIST_PAGE,
+  EXHBN_FIN_LIST_PAGE,
   HALL_DETAIL_PAGE,
   HALL_LIST_PAGE,
   LISTING_SEARCH_POST_PAGE,
@@ -22,7 +25,10 @@ import {
   UPDATE_EXHBN_PAGE,
   ADD_IMAGE_PAGE,
   ADD_HALL_PAGE,
-  UPDATE_HALL_PAGE
+  UPDATE_HALL_PAGE,
+  REVIEW_LIST_PAGE,
+  ANAL_PAGE,
+  ADMIN_PAGE
 } from 'settings/constant';
 
 /**
@@ -89,19 +95,37 @@ const routes = [
     }),
   },
   {
-    path: BOOKING_LIST_PAGE,
+    path: EXHBN_ALL_LIST_PAGE,
     component: Loadable({
       loader: () =>
-        import('container/booking/BookingList'),
+        import('container/exhibition/Listing/AllListing'),
       loading: Loading,
-      modules: ['BookingList'],
+      modules: ['ExhibitionList'],
     }),
   },
   {
-    path: EXHBN_LIST_PAGE,
+    path: EXHBN_SHOWING_LIST_PAGE,
     component: Loadable({
       loader: () =>
-        import('container/exhibition/Listing/ExhibitionListing'),
+        import('container/exhibition/Listing/ShowingListing'),
+      loading: Loading,
+      modules: ['ExhibitionList'],
+    }),
+  },
+  {
+    path: EXHBN_FIN_LIST_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/exhibition/Listing/FinListing'),
+      loading: Loading,
+      modules: ['ExhibitionList'],
+    }),
+  },
+  {
+    path: EXHBN_RECOMMEND_LIST_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/exhibition/Listing/RecommendListing'),
       loading: Loading,
       modules: ['ExhibitionList'],
     }),
@@ -194,6 +218,42 @@ const routes = [
         import('container/exhibition/ExhibitionPhotos'),
       loading: Loading,
       modules: ['ExhibitionPhotos'],
+    }),
+  },
+  {
+    path: REVIEW_LIST_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/review/ReviewList'),
+      loading: Loading,
+      modules: ['ReviewList'],
+    }),
+  },
+  {
+    path: `${REVIEW_DETAIL_PAGE}/:reviewNum`,
+    component: Loadable({
+      loader: () =>
+        import('container/review/ReviewDetail'),
+      loading: Loading,
+      modules: ['ReviewDetail'],
+    }),
+  },
+  {
+    path: ANAL_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/analysis/MyResponsivePie'),
+      loading: Loading,
+      modules: ['MyResponsivePie'],
+    }),
+  },
+  {
+    path: ADMIN_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/user/MyPage/Dashboard'),
+      loading: Loading,
+      modules: ['Dashboard'],
     }),
   },
 ];

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Input, Button } from 'antd';
+import { FileInput } from 'container/index'
 import { FormControl } from 'components/index';
 import { FormHeader, Title, FormContent, FormAction } from 'container/exhibition/AddExhibition.style';
 import axios from 'axios'
@@ -15,7 +16,17 @@ const UpdateHall = ({ match }) => {
   })
   const { hallName, hallLocation, hallTime, hallClosed,
     hallPnumber, hallInfo, hallImage } = updateHallData
-  
+  const [file, setFile] = useState({ 
+    fileName: null, 
+    fileURL: null 
+  });
+
+  const onFileChange = (file) => {
+    setFile({
+      fileName: file.name,
+      fileURL: file.url,
+    });
+  }
   const onChange = useCallback(e => {
     setUpdateHallData({...updateHallData, [e.target.name]: e.target.value})
   })
@@ -65,8 +76,7 @@ const UpdateHall = ({ match }) => {
               label="전시관 이미지"
               htmlFor="hallImage"
             >
-            <input type="file" id="hallImage" name="hallImage" value={hallImage}
-                   accept="image/*"  onChange = { onChange }/>     
+            <FileInput onFileChange={onFileChange} name={file.fileName}/>
             </FormControl>
           </Col>
         </Row>

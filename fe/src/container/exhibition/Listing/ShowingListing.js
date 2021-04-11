@@ -8,7 +8,7 @@ import useDataApi from 'library/hooks/useDataApi';
 import { EXHBN_DETAIL_PAGE } from 'settings/constant';
 import ListingWrapper, { PostsWrapper } from 'container/exhibition/Listing/Listing.style';
 
-const Listing = ({ location, history }) => {
+const ShowingListing = ({ location, history }) => {
 
   const [exhbnList, setExhbnList] = useState([])
 
@@ -49,4 +49,4 @@ const Listing = ({ location, history }) => {
     </>
   );
 }
-export default Listing;
+export default ShowingListing;

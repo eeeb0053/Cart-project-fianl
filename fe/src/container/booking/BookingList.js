@@ -1,32 +1,26 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { Divider, Table } from 'antd';
-import Wrapper, { FormWrapper, Title2 } from 'container/booking/Booking.style';
-import { BOOKING_DETAIL_PAGE } from 'settings/constant';
+import ListWrapper, { Title } from 'container/review/List.style';
+import { BOOKING_DETAIL_PAGE, EXHBN_DETAIL_PAGE } from 'settings/constant';
 import { TextLink } from 'components/index';
 import Moment from 'moment';
 import 'moment/locale/ko'
 
 const BookingList = () => {
+  const user = JSON.parse(localStorage.getItem("user"))
 
   const [bookingList, setBookingList] = useState([])
-
-  const URL = 'http://localhost:8080/bookings'
-  
+  const URL = 'http://localhost:8080/bookings/user/'
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      return Promise.reject("No access token set.");
-    }
-    axios.get(URL, { headers: { 'Authorization' : 'Bearer '+localStorage.getItem("token")}
-    })
+    axios.get(URL+user.userNum, { headers: { 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then(resp => {
       setBookingList(resp.data)
     })
     .catch(err => {
-      alert(`실패`)
-      throw err;
+      alert(err)
     })
-  }, [])
+  })
 
   const columns = [
     {
@@ -37,8 +31,8 @@ const BookingList = () => {
     },
     {
       title: '전시명',
-      dataIndex: 'exhbnNum',
-      key: 'exhbnNum',
+      dataIndex: 'exhbnTitle',
+      key: 'exhbnTitle',
     },
     {
       title: '예약자명',
@@ -64,13 +58,13 @@ const BookingList = () => {
   ];
   
   return (
-      <Wrapper>
+      <ListWrapper>
       <Divider />
-      <Title2>예매 목록</Title2>
-      <Table dataSource={bookingList} 
+      <Title>예매 목록</Title>
+      <Table dataSource={bookingList}
              columns={columns} />
       <Divider> C:ART  |  Seoul Museum of Art </Divider>
-    </Wrapper>
+    </ListWrapper>
     
 
   );

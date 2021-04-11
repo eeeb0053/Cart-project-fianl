@@ -67,4 +67,3 @@ sourceSets {
 		srcDirs = ['src/main/java', querydslSrcDir]}
 	}
 }
-

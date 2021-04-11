@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.KwonEunbi.api.analysis.domain.Analysis;
 import org.KwonEunbi.api.booking.domain.Booking;
@@ -15,9 +16,10 @@ import org.KwonEunbi.api.review.domain.Review;
 
 import lombok.Data;
 import lombok.Getter;
+import org.KwonEunbi.api.wishilist.domain.Wishlist;
 
 
-@Entity @Data @Table(name = "users")
+@Entity @Data @Table(name = "users") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserVO {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_num") private long userNum;
@@ -28,20 +30,25 @@ public class UserVO {
 	@Column private String gender;
 	@Column private String birthday;
 	@Column private String admin;
+	@Column private String userImage;
 	@Column(name = "phone_number") private String phoneNumber;
 	@Column(name = "prefer_genre") private String preferGenre;
 
 	@JsonManagedReference @JsonIgnore
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Analysis> analysisList = new ArrayList<>();
 
 	@JsonManagedReference @JsonIgnore
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Booking> bookingList = new ArrayList<>();
 
 	@JsonManagedReference @JsonIgnore
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Review> reviewList = new ArrayList<>();
+
+	@JsonManagedReference @JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	private List<Wishlist> wishLists = new ArrayList<>();
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<Role> roles;

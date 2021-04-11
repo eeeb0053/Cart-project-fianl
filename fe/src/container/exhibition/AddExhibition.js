@@ -1,32 +1,40 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Row, Col, Input, Button } from 'antd';
 import { FormControl } from 'components/index';
 import { FormHeader, Title, FormContent, FormAction } from 'container/exhibition/AddExhibition.style';
 import DatePicker from "react-datepicker"; 
 import axios from 'axios'
-import { EXHBN_LIST_PAGE } from 'settings/constant'
+import { EXHBN_ALL_LIST_PAGE } from 'settings/constant'
 import { useHistory } from 'react-router'
+import { FileInput } from 'container/index';
 
-const AddExhibition = ( )  => {
+
+const AddExhibition = ({ })  => {
   const { errors } = useForm();
   const history = useHistory();
-  const [ addExhbn, setAddExhbn ] = useState({
-    exhbnTitle: "", hallLocation: "", startDate: new Date(), endDate: new Date(), exhbnGenre: "",
-    exhbnPrice: "", exhbnArtist: "", exhbnContent: "", exhbnImage: ""
-  })
-  const { exhbnTitle, hallLocation, startDate, endDate, exhbnGenre, 
-          exhbnPrice, exhbnArtist, exhbnContent, exhbnImage } = addExhbn
+  const [ exhbnTitle, setExhbnTitle ] = useState('')
+  const [ exhbnGenre, setExhbnGenre ] = useState('')
+  const [ hallNum, setHallNum ] = useState(1)
+  const [ exhbnPrice, setExhbnPrice ] = useState('')
+  const [ exhbnArtist, setExhbnArtist ] = useState('')
+  const [ exhbnContent, setExhbnContent ] = useState('')
   const [ startdate, setStartdate ] = useState(new Date())
   const [ enddate, setEnddate ] = useState(new Date())
-  const onChange = useCallback(e => {
-    setAddExhbn({...addExhbn, [e.target.name]: e.target.value})
-  })
+  const [file, setFile] = useState({ 
+		fileName: null, 
+		fileURL: null 
+	});
+
+  const onFileChange = (file) => {
+		setFile({
+      fileName: file.name,
+      fileURL: file.url,
+    });
+  }
   const URL = 'http://localhost:8080'
   const add = e => {
     e.preventDefault()
-    setAddExhbn({...addExhbn, startDate: startdate})
-    setAddExhbn({...addExhbn, endDate: enddate})
     const del = window.confirm("전시회를 등록하시겠습니까?")
     if(del){
     axios({
@@ -36,18 +44,20 @@ const AddExhibition = ( )  => {
         'Content-Type'  : 'application/json',
         'Authorization' : 'Bearer '+localStorage.getItem("token")
       },
-      data: addExhbn
+      data: { exhbnTitle, exhbnGenre, hallNum, exhbnPrice, 
+        exhbnArtist, exhbnContent, startdate, enddate, exhbnImage: file.fileURL,
+        totalScore: 0}
     }) 
     .then(resp => {
       alert(`전시 등록 완료`)
-      history.push(EXHBN_LIST_PAGE)
+      history.push(EXHBN_ALL_LIST_PAGE)
     })
     .catch(err => {
       alert(`전시 등록 실패`)
       throw err;
     })}
   }
- 
+  
   return (
     <form onSubmit={e => e.preventDefault()}>
       <FormContent>
@@ -59,11 +69,8 @@ const AddExhibition = ( )  => {
             <FormControl
               label="전시 포스터"
               htmlFor="exhbnImage"
-              // error={errors.exhbnImage && <span>이 입력란을 작성해주세요!</span>}
               >
-            <input name="exhbnImage" value={exhbnImage}
-                   type="file" accept="image/*" 
-                   onChange = { onChange } />     
+            <FileInput onFileChange={onFileChange} name={file.fileName}/>
             </FormControl>
           </Col>
         </Row>
@@ -72,12 +79,11 @@ const AddExhibition = ( )  => {
             <FormControl
               label="제목"
               htmlFor="exhbnTitle"
-              
               // error={errors.exhbnTitle && <span>이 입력란을 작성해주세요!</span>}
             >
-            <Input name="exhbnTitle" value={exhbnTitle} id="exhbnTitle" 
+            <Input name="exhbnTitle" id="exhbnTitle" 
                    placeholder="전시 제목을 입력해주세요." 
-                   onChange = { onChange }  required="required"/>
+                   onChange = { e => {setExhbnTitle(`${ e.target.value }`)} }  required="required"/>
             </FormControl>
           </Col>
         </Row>
@@ -85,12 +91,18 @@ const AddExhibition = ( )  => {
           <Col sm={12}>
           <FormControl
               label="장소"
-              htmlFor="hallLocation"
+              htmlFor="hallNum"
               // error={errors.hallLocation && <span>이 입력란을 작성해주세요!</span>}
             >
-            <Input id="hallLocation" name="hallLocation" value={hallLocation}
-                   placeholder="전시관을 입력해주세요." required
-                   onChange = { onChange }/>  
+            <select name="hallNum" onChange={ e => {setHallNum(`${ e.target.value }`)} }>
+              <option value="1">서소문본관</option>
+              <option value="2">북서울미술관</option>
+              <option value="3">남서울미술관</option>
+              <option value="4">난지미술창작스튜디오</option>
+              <option value="5">SeMA창고</option>
+              <option value="6">백남준기념관</option>
+              <option value="7">SeMA벙커</option>
+            </select>
             </FormControl>
           </Col>
         </Row>
@@ -103,7 +115,6 @@ const AddExhibition = ( )  => {
             >
             <DatePicker
               name="startDate"
-              // value={startDate}
               dateFormat="yyyy-MM-dd"
               selected={startdate}
               onChange={date => setStartdate(date)}
@@ -120,7 +131,6 @@ const AddExhibition = ( )  => {
             >
             <DatePicker
               name="endDate"
-              // value={startDate}
               dateFormat="yyyy-MM-dd"
               selected={enddate}
               onChange={date => setEnddate(date)}
@@ -136,9 +146,9 @@ const AddExhibition = ( )  => {
               htmlFor="exhbnPrice"
               // error={errors.exhbnPrice && <span>이 입력란을 작성해주세요!</span>}
             >
-            <Input id="exhbnPrice" name="exhbnPrice" value={exhbnPrice}
+            <Input id="exhbnPrice" name="exhbnPrice"
                    placeholder="전시 가격을 입력해주세요." required
-                   onChange = { onChange }/>    
+                   onChange = { e => {setExhbnPrice(`${ e.target.value }`)} }/>    
             </FormControl>
           </Col>
         </Row>
@@ -149,7 +159,7 @@ const AddExhibition = ( )  => {
               htmlFor="exhbnGenre"
               // error={errors.exhbnGenre && <span>이 입력란을 작성해주세요!</span>}
             >
-          <select name="exhbnGenre" value={exhbnGenre} onChange={ onChange }>
+          <select name="exhbnGenre" onChange={ e => {setExhbnGenre(`${ e.target.value }`)} }>
             <option value="selection">선택</option>
             <option value="painting">회화</option>
             <option value="media">미디어</option>
@@ -167,9 +177,9 @@ const AddExhibition = ( )  => {
               htmlFor="exhbnArtist"
               // error={errors.exhbnArtist && <span>이 입력란을 작성해주세요!</span>}
             >
-            <Input id="exhbnArtist" name="exhbnArtist" value={exhbnArtist}
+            <Input id="exhbnArtist" name="exhbnArtist"
                    placeholder="작가명을 입력해주세요." required
-                   onChange = { onChange }/>   
+                   onChange = { e => {setExhbnArtist(`${ e.target.value }`)} }/>   
             </FormControl>
           </Col>
         </Row>
@@ -178,9 +188,9 @@ const AddExhibition = ( )  => {
           htmlFor="exhbnContent"
           error={errors.exhbnContent && <span>이 입력란을 작성해주세요!</span>}
         >
-        <Input.TextArea rows={5} id="exhbnContent" name="exhbnContent" value={exhbnContent}
+        <Input.TextArea rows={5} id="exhbnContent" name="exhbnContent"
                   placeholder="전시 소개글을 입력해주세요." required
-                  onChange = { onChange }/>     
+                  onChange = { e => {setExhbnContent(`${ e.target.value }`)} }/>     
         </FormControl>
       </FormContent>
       <FormAction>

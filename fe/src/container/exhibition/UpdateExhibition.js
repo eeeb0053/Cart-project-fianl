@@ -6,24 +6,37 @@ import axios from 'axios'
 import DatePicker from "react-datepicker"; 
 import { EXHBN_DETAIL_PAGE } from 'settings/constant';
 import { useHistory } from 'react-router'
+import { FileInput } from 'container/index';
 
 const UpdateExhibition = ({ match }) => {
   const history = useHistory()
   const [ exhbnDetail, setExhbnDetail ] = useState([])
+
   const [ updateExhbnData, setUpdateExhbnData ] = useState({
-    exhbnTitle: "", hallLocation: "", startDate: new Date(), endDate: new Date(), exhbnGenre: "",
-    exhbnPrice: "", exhbnArtist: "", exhbnContent: "", exhbnImage: ""
+    exhbnTitle: "", hallNum: 0, startDate: new Date(), endDate: new Date(), exhbnGenre: "",
+    exhbnPrice: "", exhbnArtist: "", exhbnContent: "", exhbnImage: "", totalScore: 0
   })
-  const { exhbnTitle, hallLocation, startDate, endDate, exhbnGenre, 
-          exhbnPrice, exhbnArtist, exhbnContent, exhbnImage } = updateExhbnData
+  const { exhbnTitle, hallNum, exhbnGenre, 
+          exhbnPrice, exhbnArtist, exhbnContent } = updateExhbnData
   const [ startdate, setStartdate ] = useState(new Date())
   const [ enddate, setEnddate ] = useState(new Date())
   const onChange = useCallback(e => {
     setUpdateExhbnData({...updateExhbnData, [e.target.name]: e.target.value})
   })
+  const [file, setFile] = useState({ 
+		fileName: null, 
+		fileURL: null 
+	});
 
-  useEffect(e => {
-    axios.get("http://localhost:8080/exhbns/one/"+match.params.exhbnNum)
+  const onFileChange = (file) => {
+		setFile({
+      fileName: file.name,
+      fileURL: file.url,
+    });
+  }
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/exhbns/"+match.params.exhbnNum)
     .then((resp) => {
       setExhbnDetail(resp.data)
     })
@@ -35,9 +48,11 @@ const UpdateExhibition = ({ match }) => {
 
   const updateExhbn = e => {
     e.preventDefault()
-    setUpdateExhbnData({...updateExhbnData, startDate:startdate})
-    setUpdateExhbnData({...updateExhbnData, endDate:enddate})
-    window.confirm("전시를 수정하시겠습니까?")
+    setUpdateExhbnData({...updateExhbnData, exhbnImage: file.url})
+    setUpdateExhbnData({...updateExhbnData, startDate: startdate})
+    setUpdateExhbnData({...updateExhbnData, endDate: enddate})
+    const del = window.confirm("전시를 수정하시겠습니까?")
+    if(del){
     axios({
       url: 'http://localhost:8080/exhbns/'+match.params.exhbnNum,
       method: 'put',
@@ -54,14 +69,14 @@ const UpdateExhibition = ({ match }) => {
     .catch(err => {
       alert(`수정 실패`)
       throw err;
-    })
+    })}
   }
-
+  
   return (
     <form>
       <FormContent>
         <FormHeader>
-          <Title>전시회 등록</Title>
+          <Title>전시회 수정</Title>
         </FormHeader>
         <Row gutter={30}>
           <Col sm={12}>
@@ -69,8 +84,7 @@ const UpdateExhibition = ({ match }) => {
               label="전시 포스터"
               htmlFor="exhbnImage"
             >
-            <input id="exhbnImage" name="exhbnImage" value={exhbnImage} type="file" 
-                   accept="image/*" onChange = { onChange }/>     
+            <FileInput onFileChange={onFileChange} name={file.fileName}/>
             </FormControl>
           </Col>
         </Row>
@@ -81,7 +95,7 @@ const UpdateExhibition = ({ match }) => {
               htmlFor="exhbnTitle"
             >
             <Input name="exhbnTitle" value={exhbnTitle}
-                  placeholder={exhbnDetail.exhbnTitle} 
+                  placeholder={exhbnDetail.exhbn.exhbnTitle} 
                   onChange = { onChange }/>
             </FormControl>
           </Col>
@@ -90,11 +104,18 @@ const UpdateExhibition = ({ match }) => {
           <Col sm={12}>
           <FormControl
               label="장소"
-              htmlFor="hallLocation"
+              htmlFor="hallNum"
+              // error={errors.hallLocation && <span>이 입력란을 작성해주세요!</span>}
             >
-            <Input name="hallLocation" value={hallLocation}
-                  placeholder={exhbnDetail.hallLocation} 
-                  onChange = { onChange }/>  
+            <select name="hallNum" value={hallNum} onChange={ onChange }>
+              <option value="1">서소문본관</option>
+              <option value="2">북서울미술관</option>
+              <option value="3">남서울미술관</option>
+              <option value="4">난지미술창작스튜디오</option>
+              <option value="5">SeMA창고</option>
+              <option value="6">백남준기념관</option>
+              <option value="7">SeMA벙커</option>
+            </select>
             </FormControl>
           </Col>
         </Row>
@@ -138,9 +159,9 @@ const UpdateExhibition = ({ match }) => {
               label="가격"
               htmlFor="exhbnPrice"
             >
-            <Input id="exhbnPrice" name="exhbnPrice" value={exhbnPrice} 
-                  placeholder={exhbnDetail.exhbnPrice} 
-                  onChange = { onChange }/>    
+            { exhbnDetail && <Input id="exhbnPrice" name="exhbnPrice" value={exhbnPrice} 
+                  placeholder={ exhbnDetail.exhbn.exhbnPrice} 
+                  onChange = { onChange }/> }    
             </FormControl>
           </Col>
         </Row>
@@ -169,7 +190,7 @@ const UpdateExhibition = ({ match }) => {
               htmlFor="exhbnArtist"
             >
             <Input id="exhbnArtist" name="exhbnArtist" value={exhbnArtist}
-                  placeholder={exhbnDetail.exhbnArtist} 
+                  placeholder={exhbnDetail.exhbn.exhbnArtist} 
                   onChange = { onChange }/>   
             </FormControl>
           </Col>
@@ -179,7 +200,7 @@ const UpdateExhibition = ({ match }) => {
           htmlFor="exhbnContent"
         >
         <Input.TextArea rows={5} id="exhbnContent" name="exhbnContent" value={exhbnContent}
-                  placeholder={exhbnDetail.exhbnContent} 
+                  placeholder={exhbnDetail.exhbn.exhbnContent} 
                   onChange = { onChange }/>     
         </FormControl>
       </FormContent>

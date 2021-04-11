@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useToggle from 'components/UI/Favorite/useToggle';
 import FavoriteWrapper from 'components/UI/Favorite/Favorite.style';
+import axios from 'axios';
 
-const Favorite = ({ className, content, onClick }) => {
+const Favorite = ({ className, exhbnNum, onClick }) => {
   // use toggle hooks
   const [toggleValue, toggleHandler] = useToggle(false);
-
   // Add all classs to an array
   const addAllClass = ['favorite'];
-
+  var [wishValue] = useToggle(false);
   // className prop checking
+  const [ wishlists, setWishlists] = useState([])
   if (className) {
     addAllClass.push(className);
   }
+  const URL = 'http://localhost:8080/wishlist'
+  useEffect(() => {
+    axios.get(URL, {headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
+    .then(resp => {
+      setWishlists(resp.data)
+    })
+  }, [])
 
   const handelClick = event => {
     toggleHandler();
@@ -31,7 +39,6 @@ const Favorite = ({ className, content, onClick }) => {
           transform="translate(-47 -55)"
         />
       </svg>
-      <span>{content}</span>
     </FavoriteWrapper>
   );
 };

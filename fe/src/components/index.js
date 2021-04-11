@@ -13,7 +13,7 @@ export {default as MobileSearchView, FilterDrawer} from 'components/Search/Mobil
 export {default as CategorySearch} from 'components/Search/CategorySearch/CategorySearch'
 export {default as SectionGrid} from 'components/SectionGrid/SectionGrid'
 export {default as SectionTitle} from 'components/SectionTitle/SectionTitle'
-export {FaceBookShare, TwitterShare} from 'components/SocialShare/SocialShare'
+export {FaceBookShare, TwitterShare, InstagramShare} from 'components/SocialShare/SocialShare'
 export {default as StickyBooking} from 'components/StickyBooking/StickyBooking'
 export {default as useWindowSize} from 'components/StickyBooking/useWindowSize'
 export {default as Box} from 'components/UI/Box/Box'

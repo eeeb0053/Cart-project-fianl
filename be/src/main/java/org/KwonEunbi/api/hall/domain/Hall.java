@@ -3,22 +3,17 @@ package org.KwonEunbi.api.hall.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.KwonEunbi.api.exhibition.domain.Exhbn;
 
 import lombok.Getter;
 
 @Entity @Getter
-@Table(name = "halls")
+@Table(name = "halls") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Hall {
 	
 	@Id 
@@ -33,7 +28,7 @@ public class Hall {
     @Column(name = "hall_image") private String hallImage;
 
     @JsonManagedReference @JsonIgnore
-    @OneToMany(mappedBy = "hall")
+    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
     private List<Exhbn> exhbnList = new ArrayList<>();
 
     public void setHallNum(long hallNum) {

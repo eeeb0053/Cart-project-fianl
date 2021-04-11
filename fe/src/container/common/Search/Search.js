@@ -34,7 +34,7 @@ const SearchArea = ({ searchTitleStyle, searchDescriptionStyle }) => {
           />
           <Text
             {...searchDescriptionStyle}
-            content="회화부터 영상까지, 서울시립미술관(SeMA)의 다양한 전시들을 검색해보세요!"
+            content="회화부터 미디어까지, 서울시립미술관(SeMA)의 다양한 전시들을 검색해보세요!"
           />
           <SearchForm />
         </SearchWrapper>

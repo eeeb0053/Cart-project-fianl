@@ -5,8 +5,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { MdLockOpen } from 'react-icons/md';
 import { Input, Switch, Button } from 'antd';
 import { FormControl } from 'components/index';
-import { FieldWrapper, SwitchWrapper, Label } from 'container/user/Auth.style';
+import { FieldWrapper, SwitchWrapper, Label, StyledButton } from 'container/user/Auth.style';
 import { LOGIN_PAGE } from 'settings/constant'
+
+
 
 const SignUpForm = () => {
   const { control } = useForm();
@@ -38,6 +40,33 @@ const SignUpForm = () => {
       alert('회원가입 실패')
     })}
   }
+  const checkId = e => {
+    e.preventDefault()
+    axios.get("http://localhost:8080/users/checkId/"+userRegister.username)
+    .then(resp => {
+      checkMessage(resp.data)
+    })
+    .catch(err => {
+      alert(err)
+    })
+  }
+  const checkEmail = e => {
+    e.preventDefault()
+    axios.get("http://localhost:8080/users/checkEmail/"+userRegister.email)
+    .then(resp => {
+      checkMessage(resp.data)
+    })
+    .catch(err => {
+      alert(err)
+    })
+  }
+  const checkMessage = (id) => {
+    if(id){
+      alert(`이미 존재합니다.`)
+    }else{
+      alert(`사용 가능합니다.`)
+    }
+  }
 
   return (
     <form >
@@ -51,6 +80,7 @@ const SignUpForm = () => {
           control={control}
           rules={{ required: true }}
         />
+        <StyledButton onClick={checkId}>중복확인</StyledButton>
       </FormControl>
       <FormControl
         label="비밀번호"
@@ -86,6 +116,7 @@ const SignUpForm = () => {
           control={control}
           rules={{ required: true }}
         />
+        <StyledButton onClick={checkEmail}>중복확인</StyledButton>
       </FormControl>
       <FormControl
         label="성별"

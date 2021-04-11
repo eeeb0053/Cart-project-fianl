@@ -8,7 +8,7 @@ import { AuthContext } from 'context/index';
 import { FieldWrapper, SwitchWrapper, Label,  Title, TitleInfo, 
          Button, Text, Input, Checkbox, A } from 'container/booking/Booking.style';
 import { TextField } from '@material-ui/core';
-import { BOOKING_LIST_PAGE } from 'settings/constant'
+import { USER_PROFILE_PAGE } from 'settings/constant'
 import TextInfo from 'components/UI/Text/Text';
 import { Consent } from 'container/index';
 import axios from 'axios';
@@ -19,7 +19,8 @@ const BookingForm = () => {
   const bookingDate = sessionStorage.getItem("bookDate")
   const tickets = sessionStorage.getItem("tickets")
   const price = sessionStorage.getItem("price")
-  alert(price)
+  const exhbnNum = sessionStorage.getItem("exhbnNum")
+  const user = JSON.parse(localStorage.getItem("user"))
   let totalprice = useState('')
   { price === '무료' ? totalprice = '0원' :
           totalprice = (price*tickets).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원'}
@@ -29,8 +30,10 @@ const BookingForm = () => {
     bookEmail : "",
     bookPnumber : "",
     totalPrice : totalprice,
-    bookDate : new Date,
-    bookTickets : tickets+'매'
+    bookDate : Moment(bookingDate).format('YYYY-MM-DD'),
+    bookTickets : tickets+'매',
+    exhbnNum : exhbnNum,
+    userNum: user.userNum
   })
   const [ isModalVisible, setIsModalVisible ] = useState(false);
 
@@ -43,8 +46,6 @@ const BookingForm = () => {
   
   const booking = e => {
     e.preventDefault()
-    setAddBooking({...addBooking, bookDate: bookingDate})
-    alert(addBooking.bookTickets)
     const del = window.confirm("예약 하시겠습니까?")
     if(del){
     axios({
@@ -58,7 +59,8 @@ const BookingForm = () => {
       sessionStorage.removeItem("bookDate")
       sessionStorage.removeItem("tickets")
       sessionStorage.removeItem("price")
-      history.push(BOOKING_LIST_PAGE)
+      sessionStorage.removeItem("exhbnNum")
+      history.push(USER_PROFILE_PAGE)
     })
     .catch(err => {
       alert(`예약 실패`)

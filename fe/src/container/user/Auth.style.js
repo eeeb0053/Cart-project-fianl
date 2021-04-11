@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 
+
+export const StyledButton = styled.button`
+color: #ffffff;
+background-color: #97abd1;
+box-shadow: #97abd1 0 0px 0px 2px inset;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -27,7 +34,6 @@ export const FormWrapper = styled.div`
   @media (max-width: 480px) {
     padding: 30px;
   }
-
   .signin-btn {
     display: flex;
     align-items: center;
@@ -52,7 +58,6 @@ export const FormWrapper = styled.div`
       background-color: #616266d1;
     }
   }
-
   .ant-divider {
     margin: 41px 0 !important;
     .ant-divider-inner-text {
@@ -61,7 +66,6 @@ export const FormWrapper = styled.div`
       color: ${themeGet('text.2', '#777777')};
     }
   }
-
   .ant-btn {
     &.facebook-btn,
     &.github-btn,
@@ -117,14 +121,12 @@ export const FieldWrapper = styled.div`
 export const SwitchWrapper = styled.div`
   display: flex;
   align-items: center;
-
   .field-container {
     .ant-form-item {
       margin-bottom: 0;
       margin-right: 10px;
     }
   }
-
   .ant-switch {
     min-width: 36px;
     height: 21px;

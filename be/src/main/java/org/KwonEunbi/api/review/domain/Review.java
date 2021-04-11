@@ -12,21 +12,23 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.KwonEunbi.api.exhibition.domain.Exhbn;
 import org.KwonEunbi.api.user.domain.UserVO;
 
 import lombok.Getter;
 
 import java.util.Date;
-
-@Entity @Getter @Table(name = "reviews")
+@NoArgsConstructor
+@Entity @Getter @Table(name = "reviews") @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Review {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "review_num") private long reviewNum;
 	@Column(name = "review_title") private String reviewTitle;
 	@Column(name = "review_content") private String reviewContent;
 	@Column(name = "reg_date") private Date regDate;
-	@Column private String score;
+	@Column private Integer score;
 
 	@JsonBackReference(value = "user")
 	@ManyToOne
@@ -54,7 +56,7 @@ public class Review {
 		this.regDate = regDate;
 	}
 
-	public void setScore(String score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 
@@ -75,6 +77,18 @@ public class Review {
 				", regDate=" + regDate +
 				", score='" + score + '\'' +
 				'}';
+	}
+
+	@Builder
+	public Review(long reviewNum, String reviewContent, String reviewTitle, Integer score,
+				   Date regDate, UserVO user, Exhbn exhbn) {
+		this.reviewNum = reviewNum;
+		this.reviewContent = reviewContent;
+		this.reviewTitle = reviewTitle;
+		this.score = score;
+		this.regDate = regDate;
+		this.user = user;
+		this.exhbn = exhbn;
 	}
 }
 

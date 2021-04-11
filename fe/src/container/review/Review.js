@@ -2,8 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IoIosStar, IoIosStarOutline, IoIosArrowDown } from 'react-icons/io';
 import { Row, Col, Button, Input, Checkbox, Divider, Modal } from 'antd';
-import { CommentCard, Heading, Text } from 'components/index';
-import { ReviewForm, UpdateReview } from 'container/index';
+import { Heading, Rating, Text } from 'components/index';
+import { ReviewForm, UpdateReview, CommentCard, Pagination } from 'container/index';
 import ReviewWrapper, {
   HeaderSection,
   RatingStatus,
@@ -14,12 +14,10 @@ import ReviewWrapper, {
   ModalTitle,
 } from 'container/review/Review.style';
 import { Element } from 'react-scroll';
-import axios from 'axios';
 
 const Search = Input.Search;
 const CommentBox = ( props ) => {
   const { reviews } = props;
-
   return reviews && reviews.length !== 0
     ? reviews.map((singleReview, i) => {
         return (
@@ -34,9 +32,8 @@ const CommentBox = ( props ) => {
 };
 
 const Review = (props) => {
-  const [ review, setReview ] = useState([])
+  const { reviewList, totalScore } = props
   const {
-    ratingCount,
     statusHeadingStyle,
     filterHeadingStyle,
     ratingLabelStyle,
@@ -61,18 +58,15 @@ const Review = (props) => {
   const onChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
-
-  let URL = 'http://localhost:8080/reviews'
-  useEffect(e => {
-    axios.get(URL, )
-    .then((resp) => {
-      setReview(resp.data)
-    })
-    .catch((err) => {
-      alert(`실패`)
-      throw err;
-    })
-  }, [])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  const currentPosts = (tmp) => {
+    let currentPosts = 0;
+    currentPosts = tmp.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  }
 
   return (
     <Element name="reviews" className="reviews">
@@ -80,14 +74,10 @@ const Review = (props) => {
         <HeaderSection>
           <RatingStatus>
             <Heading
-              content={`${ratingCount} 이용평점`}
+              content={`이용평점 ${totalScore}`}
               {...statusHeadingStyle}
             />
-            <IoIosStar />
-            <IoIosStar />
-            <IoIosStar />
-            <IoIosStar />
-            <IoIosStar />
+            <Rating rating={totalScore} rationgCount={totalScore} type='bulk'/>
           </RatingStatus>
           <RatingSearch>
             <Search
@@ -195,99 +185,10 @@ const Review = (props) => {
               </Checkbox>
             </FilterElement>
             {/* End of Filter Element */}
-
-            <TextButton onClick={() => handleModalOpen('language')}>
-              더보기 <IoIosArrowDown />
-            </TextButton>
-
-            <Modal
-              width={320}
-              visible={state.language}
-              onCancel={() => handleModalClose('language')}
-              footer={null}
-              maskStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-              wrapClassName="language_modal"
-            >
-              <Heading content="연령대" {...filterHeadingStyle} />
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text
-                    content="전 연령"
-                    as="span"
-                    {...ratingLabelStyle}
-                  />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="10대 이하" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text
-                    content="20대"
-                    as="span"
-                    {...ratingLabelStyle}
-                  />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text
-                    content="30대"
-                    as="span"
-                    {...ratingLabelStyle}
-                  />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="40대" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="50대" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="60대" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="70대" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-
-              <FilterElement>
-                <Checkbox onChange={onChange}>
-                  <Text content="80대" as="span" {...ratingLabelStyle} />
-                </Checkbox>
-              </FilterElement>
-              {/* End of Filter Element */}
-            </Modal>
-            {/* End of Text Button */}
           </Col>
         </Row>
-        <CommentBox reviews={review} />
+        <CommentBox reviews={currentPosts(reviewList)} />
+        <Pagination postsPerPage={postsPerPage} totalPosts={reviewList.length} paginate={setCurrentPage}/>
       </ReviewWrapper>
     </Element>
   );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HallWrapper, { HallImage, HallBoxOne, 
   HallBoxTwo, HallBtn, ButtonBox } from 'container/hall/HallInfo/HallInformation.style';
 import { Heading, Text } from 'components/index';
-import { EXHBN_LIST_PAGE, ADD_HALL_PAGE, UPDATE_HALL_PAGE } from 'settings/constant';
+import { HALL_LIST_PAGE, ADD_HALL_PAGE, UPDATE_HALL_PAGE } from 'settings/constant';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -22,18 +22,17 @@ const HallInformation = (props) => {
 = props;
 
   let history = useHistory();
-
+  const URL = 'http://localhost:8080/halls/'
   const deleteHall = e => {
     e.preventDefault()
     window.confirm("전시관을 삭제하시겠습니까?")
     axios({
-      url: 'http://localhost:8080/halls',
+      url: URL+props.num,
       method: 'delete',
       headers: {
         'Content-Type'  : 'application/json',
         'Authorization' : 'Bearer '+localStorage.getItem("token")
-      },
-      data: { hallNum: props.num }
+      }
     })
     .then(resp => {
       alert(`삭제 완료`)
@@ -67,13 +66,17 @@ const HallInformation = (props) => {
         </div>
         <HallBtn>
           <div class="wrap">
-            <Link to={`${EXHBN_LIST_PAGE}/${props.hallNum}`}>
+            <Link to={`${HALL_LIST_PAGE}/${props.num}`}>
               <a href="#" class="button" >전시보기</a>
             </Link>
           </div>
         </HallBtn>
       </HallBoxTwo>
-      <ButtonBox>
+      { localStorage.getItem("user") == null ||
+     JSON.parse(localStorage.getItem("user")).admin != 1 ?
+     <></>
+     : 
+     <ButtonBox>
           <Link to={ADD_HALL_PAGE}>
           <button className="btn">등록</button>
           </Link>
@@ -82,6 +85,7 @@ const HallInformation = (props) => {
           </Link>
           <button className="cancle-btn" onClick={ deleteHall }>삭제</button>
       </ButtonBox>
+     }
     </HallWrapper>
   );
 };

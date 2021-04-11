@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Row, Col, Button, Input, Rate, Checkbox, Divider, Modal } from 'antd';
-import FormControl from 'components/UI/FormControl/FormControl';
+import { FormControl } from 'components/index';
 import ReviewWrapper, {
   ModalTitle, Form
 } from 'container/review/Review.style';
 import axios from 'axios';
 
-const Review = (props) => {
+const UpdateReview = (props) => {
   const [ score, setScore ] = useState(0)
   const [ reviewContent, setReviewContent ] = useState('')
   const { control, errors, handleSubmit } = useForm({
@@ -58,7 +58,7 @@ const Review = (props) => {
       const del = window.confirm("리뷰를 삭제하시겠습니까?")
       if(del){
         axios({
-          url: URL+props.singleReview.reviewNum,
+          url: URL+props.singleReview.review.reviewNum,
           method: 'delete',
           headers: {
             'Content-Type'  : 'application/json',
@@ -80,7 +80,10 @@ const Review = (props) => {
     setScore(value)
   }
 
-  return (
+  return (<>
+    { localStorage.getItem("user") == null ||
+     JSON.parse(localStorage.getItem("user")).username != props.singleReview.username
+       ? <></> :
     <>
     <button className="btn" onClick={() => handleModalOpen('review')}>수정</button>
     <Modal
@@ -134,7 +137,8 @@ const Review = (props) => {
     </Form></Modal>
     <button className="cancle-btn" onClick={handleDeleteReview}>삭제</button>
     </>
+    }</>
   )
 };
 
-export default Review;
+export default UpdateReview;

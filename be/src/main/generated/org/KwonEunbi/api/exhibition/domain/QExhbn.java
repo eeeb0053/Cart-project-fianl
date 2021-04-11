@@ -48,6 +48,10 @@ public class QExhbn extends EntityPathBase<Exhbn> {
 
     public final DateTimePath<java.util.Date> startDate = createDateTime("startDate", java.util.Date.class);
 
+    public final NumberPath<Float> totalScore = createNumber("totalScore", Float.class);
+
+    public final ListPath<org.KwonEunbi.api.wishilist.domain.Wishlist, org.KwonEunbi.api.wishilist.domain.QWishlist> wishLists = this.<org.KwonEunbi.api.wishilist.domain.Wishlist, org.KwonEunbi.api.wishilist.domain.QWishlist>createList("wishLists", org.KwonEunbi.api.wishilist.domain.Wishlist.class, org.KwonEunbi.api.wishilist.domain.QWishlist.class, PathInits.DIRECT2);
+
     public QExhbn(String variable) {
         this(Exhbn.class, forVariable(variable), INITS);
     }

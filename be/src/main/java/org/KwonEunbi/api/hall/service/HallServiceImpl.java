@@ -14,7 +14,7 @@ import org.KwonEunbi.api.hall.repository.HallRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service @RequiredArgsConstructor
-public class HallServiceImpl extends AbstractService<Hall> implements HallService {
+public class HallServiceImpl implements HallService {
 	final HallRepository hallRepository;
 	
 	@Override 
@@ -22,9 +22,9 @@ public class HallServiceImpl extends AbstractService<Hall> implements HallServic
 		return (hallRepository.save(hall) != null) ? 1 : 0;
 	}
 	@Override 
-	public long delete(Hall hall) {
-		hallRepository.delete(hall); 
-		return(getOne(hall.getHallNum()) == null) ? 1 : 0;
+	public long delete(long id) {
+		hallRepository.deleteById(id);
+		return(getOne(id) == null) ? 1 : 0;
 	}
 	@Override 
 	public long count() {

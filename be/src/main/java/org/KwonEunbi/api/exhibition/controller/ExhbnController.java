@@ -1,5 +1,6 @@
 package org.KwonEunbi.api.exhibition.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +10,14 @@ import com.querydsl.core.Tuple;
 import org.KwonEunbi.api.common.controller.AbstractController;
 import org.KwonEunbi.api.exhibition.domain.Exhbn;
 import org.KwonEunbi.api.exhibition.domain.ExhbnDTO;
+import org.KwonEunbi.api.exhibition.domain.ExhbnHallDTO;
 import org.KwonEunbi.api.exhibition.service.ExhbnServiceImpl;
 import org.KwonEunbi.api.hall.domain.Hall;
 
 import lombok.RequiredArgsConstructor;
 import org.KwonEunbi.api.hall.domain.HallDTO;
 import org.KwonEunbi.api.hall.service.HallServiceImpl;
+import org.KwonEunbi.api.review.domain.Review;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,19 +31,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController 
 @RequiredArgsConstructor 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/exhbns")
-public class ExhbnController extends AbstractController<Exhbn> {
+public class ExhbnController{
 	final ExhbnServiceImpl service;
 	final HallServiceImpl hallService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@PostMapping("")
-	public ResponseEntity<Long> save(@RequestBody Exhbn t) {
-		return ResponseEntity.ok(service.save(t));
+	public ResponseEntity<Long> save(@RequestBody Exhbn e) {
+		System.out.println(e.toString());
+		return ResponseEntity.ok(service.save(e));
+	}
+
+	@PostMapping("/add")
+	public ResponseEntity<Long> add(@RequestBody ExhbnDTO e) {
+		e.setHall(hallService.getOne(e.getExhbnNum()));
+		return ResponseEntity.ok(service.add(e));
 	}
 	
 	@PutMapping("/{exhbnNum}")
@@ -71,12 +82,18 @@ public class ExhbnController extends AbstractController<Exhbn> {
 		if(!(t.getExhbnImage().equals(e.getExhbnImage()) || t.getExhbnImage().equals(""))) {
 			e.setExhbnImage(t.getExhbnImage());
 		}
+		if(!(t.getTotalScore().equals(e.getTotalScore()) || t.getTotalScore().equals(""))) {
+			e.setTotalScore(t.getTotalScore());
+		}
+		if(!(t.getHall().getHallNum()==e.getHall().getHallNum() || t.getHall().getHallNum() == 0L)) {
+			e.setTotalScore(t.getTotalScore());
+		}
 		return ResponseEntity.ok(service.save(e));
 	}
 
-	@DeleteMapping("")
-	public ResponseEntity<Long> delete(@RequestBody Exhbn t) {
-		return ResponseEntity.ok(service.delete(t));
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Long> delete(@PathVariable long id) {
+		return ResponseEntity.ok(service.delete(id));
 	}
 
 	@GetMapping("/count")
@@ -84,9 +101,9 @@ public class ExhbnController extends AbstractController<Exhbn> {
 		return ResponseEntity.ok(service.count());
 	}
 
-	@GetMapping("/one/{id}")
-	public ResponseEntity<Exhbn> getOne(@PathVariable long id) {
-		return ResponseEntity.ok(service.getOne(id));
+	@GetMapping("/{id}")
+	public ResponseEntity<ExhbnHallDTO> findByHallNum(@PathVariable long id) {
+		return ResponseEntity.ok(service.findByExhbnNum(id));
 	}
 
 	@GetMapping("/find/{id}")
@@ -105,41 +122,43 @@ public class ExhbnController extends AbstractController<Exhbn> {
 	}
 
 	@GetMapping("/search/{exhbnTitle}")
-	public ResponseEntity<List<Exhbn>> searchTitle(@PathVariable String exhbnTitle){
+	public ResponseEntity<List<ExhbnHallDTO>> searchTitle(@PathVariable String exhbnTitle){
 		return ResponseEntity.ok(service.searchTitle(exhbnTitle));
 	}
 
-	@GetMapping("/all")
-	public ResponseEntity<List<Exhbn>> sortList(){
-		return ResponseEntity.ok(service.sortList());
-	}
-
 	@GetMapping("/topList")
-	public ResponseEntity<List<ExhbnDTO>> topList(){
+	public ResponseEntity<List<ExhbnHallDTO>> topList(){
 		return ResponseEntity.ok(service.topList());
 	}
 
 	@GetMapping("/now")
-	public ResponseEntity<List<Exhbn>> nowInExhbn(){
+	public ResponseEntity<List<ExhbnHallDTO>> nowInExhbn(){
 		return ResponseEntity.ok(service.nowInExhbn());
 	}
 
 	@GetMapping("/fin")
-	public ResponseEntity<List<Exhbn>> finExhbn(){
+	public ResponseEntity<List<ExhbnHallDTO>> finExhbn(){
 		return ResponseEntity.ok(service.finExhbn());
 	}
 
 	@GetMapping("/hall/{id}")
-	public ResponseEntity<List<Exhbn>> findByHall(@PathVariable  long id) {
+	public ResponseEntity<List<ExhbnHallDTO>> findByHall(@PathVariable  long id) {
 		return ResponseEntity.ok(service.findByHall(id));
 	}
+
 	@GetMapping("/allInfo")
-	public ResponseEntity<List<Map<?,?>>> findAllInfo() {
-		Map<?, ?> map = new HashMap<>();
-		List<Long> hallNumList = service.findHallNum();
-		for(int i = 1; i <= hallNumList.size() ; i++){
-			// map(hallService.getOne(i).getHallName());
+	public ResponseEntity<List<ExhbnHallDTO>> findAllInfo() {
+		return ResponseEntity.ok(service.findAllInfo());
+	}
+
+	@GetMapping("/totalscore")
+	public void totalScore() {
+		List<Exhbn> e = service.findAll();
+		for (int i = 0; i < e.size(); i++) {
+			if(e.get(i).getReviewList().size() != 0) {
+				e.get(i).setTotalScore(service.totalScore(e.get(i).getExhbnNum()));
+				service.save(e.get(i));
+			}
 		}
-		return null;
 	}
 }

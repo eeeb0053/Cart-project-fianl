@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SummaryWrapper, { PosterImage, Info, ButtonGroup, PosterBox, InfoBox, ButtonBox } from 'container/common/SinglePage/Summary/Summary.style';
-import { Heading, Rating, Favorite, FaceBookShare, TwitterShare } from 'components/index';
-import { RatingMeta } from 'container/exhibition/ExhibitionDetail.style';
+import { Heading, Rating, Favorite, FaceBookShare, TwitterShare, InstagramShare } from 'components/index';
+import { RatingMeta } from 'container/common/SinglePage/Summary/Summary.style';
 import { Button, Menu, Dropdown } from 'antd';
 import Moment from 'moment';
 import 'moment/locale/ko'
@@ -16,6 +16,9 @@ const SocialShareMenu = ( props) => {
         </Menu.Item>
         <Menu.Item>
           <FaceBookShare {...props} />
+        </Menu.Item>
+        <Menu.Item>
+          <InstagramShare {...props} />
         </Menu.Item>
       </Menu>
     );
@@ -62,7 +65,7 @@ return (
             <Info>
                 <Heading as="h2" content={title} {...titleStyle} />
                 <RatingMeta>
-                    <Rating rating={rating} ratingCount={ratingCount} type="bulk" />
+                    <Rating rating={rating} ratingCount={ratingCount}/>
                 </RatingMeta>
                 <ul>
                     <li><strong>장소</strong> <span>{location}</span></li>

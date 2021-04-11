@@ -32,7 +32,7 @@ public class QReview extends EntityPathBase<Review> {
 
     public final StringPath reviewTitle = createString("reviewTitle");
 
-    public final StringPath score = createString("score");
+    public final NumberPath<Integer> score = createNumber("score", Integer.class);
 
     public final org.KwonEunbi.api.user.domain.QUserVO user;
 

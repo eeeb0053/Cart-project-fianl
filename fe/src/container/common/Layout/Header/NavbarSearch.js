@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import { withRouter } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import { setStateToUrl, getStateFromUrl } from 'library/helpers/url_handler';
-import { EXHBN_LIST_PAGE } from 'settings/constant';
+import { EXHBN_ALL_LIST_PAGE } from 'settings/constant';
 import { NavbarSearchWrapper } from 'container/common/Layout/Header/Header.style';
 
 const NavbarSearch = (props) => {
@@ -18,7 +18,7 @@ const NavbarSearch = (props) => {
       };
       const search = setStateToUrl(query);
       props.history.push({
-        pathname: EXHBN_LIST_PAGE,
+        pathname: EXHBN_ALL_LIST_PAGE,
         search: search,
       });
     }

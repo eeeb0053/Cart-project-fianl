@@ -4,7 +4,7 @@ import { Layout as LayoutWrapper } from 'antd';
 import useWindowSize from 'library/hooks/useWindowSize';
 import { LayoutProvider } from 'context/index';
 import {
-  EXHBN_LIST_PAGE,
+  EXHBN_ALL_LIST_PAGE,
   LOGIN_PAGE,
   REGISTRATION_PAGE,
   USER_PROFILE_PAGE,
@@ -36,7 +36,7 @@ export default withRouter(function Layout({ children, location }) {
         <Fragment>
           <Header />
           <Content>{children}</Content>
-          {location.pathname === EXHBN_LIST_PAGE ||
+          {location.pathname === EXHBN_ALL_LIST_PAGE ||
           location.pathname === ADD_EXHBN_PAGE ||
           location.pathname === USER_PROFILE_PAGE ||
           location.pathname === CHANGE_PASSWORD_PAGE ||

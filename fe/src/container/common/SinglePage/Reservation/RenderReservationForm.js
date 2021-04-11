@@ -36,6 +36,8 @@ const RenderReservationForm = ( props ) => {
   };
   const onClick = e => {
     e.preventDefault();
+    sessionStorage.setItem("price", props.price)
+    sessionStorage.setItem("exhbnNum", props.number)
     sessionStorage.setItem("tickets", tickets)
     sessionStorage.setItem("bookDate", bookDate)
     { localStorage.getItem("token") !== null ? 

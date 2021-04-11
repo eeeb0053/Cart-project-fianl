@@ -58,7 +58,7 @@ export const Title = styled.h2`
 
 export const RatingMeta = styled.div`
   display: flex;
-  align-items: center;
+  align-items: left;
   color: ${themeGet('text.0', '#2C2C2C')};
   font-size: 13px;
   margin-top: 10px;

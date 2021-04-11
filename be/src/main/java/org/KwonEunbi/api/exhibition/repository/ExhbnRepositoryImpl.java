@@ -11,8 +11,10 @@ import static org.KwonEunbi.api.hall.domain.QHall.hall;
 
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import lombok.RequiredArgsConstructor;
 import org.KwonEunbi.api.exhibition.domain.ExhbnDTO;
+import org.KwonEunbi.api.exhibition.domain.ExhbnHallDTO;
 import org.KwonEunbi.api.hall.domain.Hall;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -31,46 +33,77 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	}
 	
 	@Override
-	public List<Exhbn> searchTitle(String exhbnTitle) {
+	public List<ExhbnHallDTO> searchTitle(String exhbnTitle) {
 		//return em.createQuery("select exh from Exhbn exh where exh.exhbnTitle like CONCAT('%',:title,'%')")
 		//		.setParameter("title", exhbnTitle).getResultList();
-		return qf.selectFrom(exhbn).where(exhbn.exhbnTitle.contains(exhbnTitle)).fetch();
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn).where(exhbn.exhbnTitle.contains(exhbnTitle))
+				.orderBy(exhbn.exhbnNum.desc())
+				.fetch();
 	}
 
 	@Override
-	public List<Exhbn> sortList(){
-		return qf.selectFrom(exhbn).orderBy(exhbn.startDate.desc()).fetch();
-	}
-
-	@Override
-	public List<Exhbn> nowInExhbn(){
+	public List<ExhbnHallDTO> nowInExhbn(){
 		Date nowDate = new Date();
-		return qf.selectFrom(exhbn).where(exhbn.startDate.before(nowDate), exhbn.endDate.after(nowDate))
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.startDate.before(nowDate), exhbn.endDate.after(nowDate))
 				.orderBy(exhbn.startDate.desc()).fetch();
 	}
 
 	@Override
-	public List<Exhbn> finExhbn(){
+	public List<ExhbnHallDTO> finExhbn(){
 		Date nowDate = new Date();
-		return qf.selectFrom(exhbn).where(exhbn.endDate.before(nowDate)).fetch();
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.endDate.before(nowDate))
+				.orderBy(exhbn.endDate.asc())
+				.fetch();
 	}
 
 	@Override
-	public List<Exhbn> findByHall(long id){
-		return qf.selectFrom(exhbn).where(hall.hallNum.eq(id)).fetch();
+	public List<ExhbnHallDTO> findByHall(long id){
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn).where(hall.hallNum.eq(id))
+				.orderBy(exhbn.exhbnNum.desc())
+				.fetch();
 	}
 
 	@Override
-	public List<ExhbnDTO> findByHallNum(long id){
-		List<Tuple> list = qf.select(exhbn, hall.hallName).from(exhbn)
-				.join(exhbn.hall, hall).on(hall.hallNum.eq(id)).fetch();
-		System.out.println(list);
-		return null;
+	public List<ExhbnHallDTO> findByGenre(String genre) {
+		Date nowDate = new Date();
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.exhbnGenre.eq(genre), exhbn.startDate.before(nowDate),
+						exhbn.endDate.after(nowDate))
+				.orderBy(exhbn.exhbnNum.desc())
+				.fetch();
 	}
 
-	public List<Exhbn> findAllInfo(){
-		return em.createQuery("select e, h from Exhbn e " +
-				"				inner join Hall h on e.hallNum like h.hallNum", Exhbn.class)
-				.getResultList();
+	@Override
+	public List<ExhbnHallDTO> findByScore() {
+		Date nowDate = new Date();
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.totalScore.isNotNull())
+				.orderBy(exhbn.totalScore.desc())
+				.fetch();
 	}
+
+	@Override
+	public List<ExhbnHallDTO> findAllInfo() {
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.orderBy(exhbn.exhbnNum.desc())
+				.fetch();
+	}
+
+	@Override
+	public ExhbnHallDTO findByExhbnNum(long id){
+		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.exhbnNum.eq(id))
+				.fetchOne();
+	}
+
 }

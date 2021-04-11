@@ -1,5 +1,7 @@
 package org.KwonEunbi.api.exhibition.domain;
 
+import org.KwonEunbi.api.booking.domain.Booking;
+import org.KwonEunbi.api.hall.domain.Hall;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +21,12 @@ public class ExhbnDTO {
     private String exhbnArtist;
     private String exhbnContent;
     private String exhbnImage;
-    // private String hallLocation;
+    private Float totalScore;
+    private Hall hall;
 
     public ExhbnDTO(Exhbn e) {
         this.exhbnNum = e.getExhbnNum();
         this.hallNum = e.getHall().getHallNum();
-        String hallLocation = e.getHall().getHallLocation();
         this.exhbnTitle = e.getExhbnTitle();
         this.startDate = e.getStartDate();
         this.endDate = e.getEndDate();
@@ -33,6 +35,23 @@ public class ExhbnDTO {
         this.exhbnArtist = e.getExhbnArtist();
         this.exhbnContent = e.getExhbnContent();
         this.exhbnImage = e.getExhbnImage();
+        this.totalScore = e.getTotalScore();
+    }
+
+    public Exhbn toEntity(){
+        return Exhbn.builder()
+                .exhbnNum(this.exhbnNum)
+                .exhbnTitle(this.exhbnTitle)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .exhbnGenre(this.exhbnGenre)
+                .exhbnPrice(this.exhbnPrice)
+                .exhbnArtist(this.exhbnArtist)
+                .exhbnContent(this.exhbnContent)
+                .totalScore(this.totalScore)
+                .exhbnImage(this.exhbnImage)
+                .hall(this.hall)
+                .build();
     }
 }
 /*

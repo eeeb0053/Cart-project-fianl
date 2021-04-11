@@ -9,6 +9,13 @@ import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 
+import org.KwonEunbi.api.booking.domain.BookingDTO;
+import org.KwonEunbi.api.booking.domain.BookingExhbnDTO;
+import org.KwonEunbi.api.exhibition.domain.Exhbn;
+import org.KwonEunbi.api.exhibition.service.ExhbnServiceImpl;
+import org.KwonEunbi.api.user.service.UserServiceImpl;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,22 +37,19 @@ import org.slf4j.LoggerFactory;
 
 @RestController @RequiredArgsConstructor @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/bookings")
-public class BookingController extends AbstractController<Booking>{
+public class BookingController{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	final BookingServiceImpl service;
-	
+	final UserServiceImpl userService;
+	final ExhbnServiceImpl exhbnService;
+
 	@PostMapping("")
-	public ResponseEntity<Long> save(@RequestBody Booking t) {
-		return ResponseEntity.ok(service.save(t));
+	public ResponseEntity<Long> save(@RequestBody BookingDTO b) {
+		b.setUser(userService.getOne(b.getUserNum()));
+		b.setExhbn(exhbnService.getOne(b.getExhbnNum()));
+		return ResponseEntity.ok(service.add(b));
 	}
-	@PutMapping("/update/{bookNum}")
-	public ResponseEntity<Long> update(@RequestParam(value = "bookName", required = false) String bookName, 
-			@RequestParam(value = "bookEmail", required = false) String bookEmail, 
-			@RequestParam(value = "bookPnumber", required = false) String bookPnumber, 
-			@PathVariable long bookNum) {
-		logger.info("수정 정보: "+ bookName + bookEmail + bookPnumber + bookNum);
-		return ResponseEntity.ok(service.update(bookName, bookEmail, bookPnumber, bookNum)); 
-	}
+
 	@PutMapping("/{bookNum}")
 	public ResponseEntity<Long> edit(@RequestBody Booking t, @PathVariable long bookNum){
 		logger.info("수정 정보: "+t.toString());
@@ -76,12 +80,12 @@ public class BookingController extends AbstractController<Booking>{
 		return ResponseEntity.ok(service.count());
 	}
 	@GetMapping("")
-	public ResponseEntity<List<Booking>> findAll() {
+	public ResponseEntity<List<BookingExhbnDTO>> findAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Booking> getOne(@PathVariable long id) {
-		return ResponseEntity.ok(service.getOne(id));
+	public ResponseEntity<BookingExhbnDTO> getOne(@PathVariable long id) {
+		return ResponseEntity.ok(service.findByBookNum(id));
 	}
 	@GetMapping("/find/{id}")
 	public ResponseEntity<Optional<Booking>> findById(@PathVariable long id) {
@@ -91,5 +95,8 @@ public class BookingController extends AbstractController<Booking>{
 	public ResponseEntity<Boolean> existsById(@PathVariable long id) {
 		return ResponseEntity.ok(service.existsById(id));
 	}
-
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<BookingExhbnDTO>> findByUser(@PathVariable long id){
+		return ResponseEntity.ok(service.findByUser(id));
+	}
 }

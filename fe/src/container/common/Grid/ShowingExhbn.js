@@ -3,7 +3,7 @@ import { Heading, TextLink, Container, PostPlaceholder,
          SectionGrid, SectionTitle } from 'components/index';
 import useWindowSize from 'library/hooks/useWindowSize';
 import useDataApi from 'library/hooks/useDataApi';
-import { EXHBN_LIST_PAGE, EXHBN_DETAIL_PAGE } from 'settings/constant';
+import { EXHBN_SHOWING_LIST_PAGE, EXHBN_DETAIL_PAGE } from 'settings/constant';
 const ShowingExhbn = () => {
   const { data, loading } = useDataApi('http://localhost:8080/exhbns/now');
   const { width } = useWindowSize();
@@ -32,7 +32,7 @@ const ShowingExhbn = () => {
     <Container fluid={true}>
       <SectionTitle
         title={<Heading content="진행중인 전시" />}
-        link={<TextLink link={EXHBN_LIST_PAGE} content="Show all" />}
+        link={<TextLink link={EXHBN_SHOWING_LIST_PAGE} content="Show all" />}
       />
 
       <SectionGrid

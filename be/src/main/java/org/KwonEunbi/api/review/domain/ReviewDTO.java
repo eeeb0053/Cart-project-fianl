@@ -1,5 +1,8 @@
 package org.KwonEunbi.api.review.domain;
 
+import org.KwonEunbi.api.booking.domain.Booking;
+import org.KwonEunbi.api.exhibition.domain.Exhbn;
+import org.KwonEunbi.api.user.domain.UserVO;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +19,22 @@ public class ReviewDTO {
 	private String reviewTitle;
 	private String reviewContent;
 	private Date regDate;
-	private String score;
+	private Integer score;
+	private UserVO user;
+	private Exhbn exhbn;
+
+	public Review toEntity(){
+		return Review.builder()
+				.reviewNum(this.reviewNum)
+				.reviewContent(this.reviewContent)
+				.reviewTitle(this.reviewTitle)
+				.score(this.score)
+				.regDate(this.regDate)
+				.exhbn(this.exhbn)
+				.user(this.user)
+				.build();
+	}
+
 }
 /*
 create table boards(

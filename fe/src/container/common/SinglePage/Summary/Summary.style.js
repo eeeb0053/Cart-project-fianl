@@ -130,4 +130,31 @@ export const ButtonGroup = styled.div`
   }
 `;
 
+export const RatingMeta = styled.div`
+  display: flex;
+  align-items: left;
+  color: ${themeGet('text.0', '#2C2C2C')};
+  font-size: 17px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 3px;
+  width: 100%;
+  @media (max-width: 767px) {
+  }
+  i {
+    color: ${themeGet('primary.0', '#616266')};
+  }
+  svg {
+    fill: ${themeGet('primary.0', '#616266')};
+  }
+  strong {
+    font-weight: 700;
+    margin-left: 0px;
+    margin-top: -1px;
+  }
+  p{
+    width: 95px;
+  }
+`;
+
 export default SummaryWrapper;

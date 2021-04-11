@@ -10,7 +10,7 @@ const BookingInfo = ( props ) => {
   const [ exhbnDetail, setExhbnDetail ] = useState([])
   const [ props2 ] = useState([])
 
-  const URL = `http://localhost:8080/exhbns/one/` 
+  const URL = `http://localhost:8080/exhbns/`
 
   useEffect(() => {
     axios.get(URL+props.exhbnNum)
@@ -32,18 +32,18 @@ const BookingInfo = ( props ) => {
       <div>
         <Title>예매 정보</Title> <br/>
         <Information
-              content={exhbnDetail.exhbnContent}
-              title={exhbnDetail.exhbnTitle}
-              number={exhbnDetail.exhbnNum}
-              location={exhbnDetail.hallLocation}
-              genre={exhbnDetail.exhbnGenre}
-              artist={exhbnDetail.exhbnArtist}
-              start={exhbnDetail.startDate}
-              end={exhbnDetail.endDate}
-              price={exhbnDetail.exhbnPrice}
-              image={exhbnDetail.exhbnImage}
-              rating={rating}
-              ratingCount={ratingCount}
+              content={exhbnDetail.exhbn.exhbnContent}
+              title={exhbnDetail.exhbn.exhbnTitle}
+              number={exhbnDetail.exhbn.exhbnNum}
+              location={exhbnDetail.hallName}
+              genre={exhbnDetail.exhbn.exhbnGenre}
+              artist={exhbnDetail.exhbn.exhbnArtist}
+              start={exhbnDetail.exhbn.startDate}
+              end={exhbnDetail.exhbn.endDate}
+              price={exhbnDetail.exhbn.exhbnPrice}
+              image={exhbnDetail.exhbn.exhbnImage}
+              rating={exhbnDetail.exhbn.totalScore}
+              ratingCount={exhbnDetail.exhbn.totalScore}
             />
       </div>
       <br/>

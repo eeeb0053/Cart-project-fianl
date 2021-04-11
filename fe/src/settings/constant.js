@@ -4,9 +4,11 @@ export const USERS_PAGE = '/agents';
 
 // Listing Single Page Section
 export const BOOKING_PAGE = '/booking';
-export const BOOKING_LIST_PAGE = '/bookingList';
 export const BOOKING_DETAIL_PAGE = '/bookingDetail';
-export const EXHBN_LIST_PAGE = '/exhbnList';
+export const EXHBN_ALL_LIST_PAGE = '/all-exhbn';
+export const EXHBN_RECOMMEND_LIST_PAGE = '/rec-exhbn';
+export const EXHBN_SHOWING_LIST_PAGE = '/showing-exhbn';
+export const EXHBN_FIN_LIST_PAGE = '/fin-exhbn';
 export const EXHBN_DETAIL_PAGE = '/exhbns';
 export const HALL_LIST_PAGE = '/hallList';
 export const HALL_DETAIL_PAGE = '/halls';
@@ -26,9 +28,14 @@ export const USER_PASSWORD_CHANGE_PAGE = '/change-password';
 export const USER_PROFILE_DELETE = '/delete';
 export const USER_PROFILE_FAVOURITE = '/favourite-post';
 export const USER_PROFILE_CONTACT = '/contact';
+export const REVIEW_LIST_PAGE = '/reviewList';
+export const REVIEW_DETAIL_PAGE = '/reviews';
 
 // Other Pages
 export const ADD_IMAGE_PAGE = '/add-photos'
+export const ANAL_PAGE = '/anal'
+export const ADMIN_PAGE = '/admin'
+export const SETTING_PAGE = '/settings'
 
 // Login / Registration Page
 export const LOGIN_PAGE = '/sign-in';

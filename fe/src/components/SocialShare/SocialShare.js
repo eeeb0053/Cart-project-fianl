@@ -3,13 +3,13 @@ import {
   FacebookShareButton,
   TwitterShareButton,
   PinterestShareButton,
-  LinkedinShareButton,
+  InstapaperShareButton,
 } from 'react-share';
 import {
   FaTwitter,
   FaFacebookF,
   FaPinterest,
-  FaLinkedinIn,
+  FaInstagram,
 } from 'react-icons/fa';
 
 export const FaceBookShare = (props) => {
@@ -34,18 +34,18 @@ export const TwitterShare = (props) => {
   );
 };
 
-export const LinkedInShare = (props) => {
+export const InstagramShare = (props) => {
   const { shareURL, title } = props;
   return (
-      <div className="linkedin">
-        <LinkedinShareButton
+      <div className="instagram">
+        <InstapaperShareButton
           url={shareURL}
           title={title}
           windowWidth={750}
           windowHeight={600}
         >
-          <FaLinkedinIn /> LinkedIn
-        </LinkedinShareButton>
+          <FaInstagram /> Instagram
+        </InstapaperShareButton>
       </div>
   );
 };

@@ -13,7 +13,7 @@ const Information = ({
   price,
   image,
   content,
-  startDate, endDate,
+  start, end,
   genre,
   artist,
   titleStyle,
@@ -37,8 +37,8 @@ const Information = ({
                price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원'}</span></li><br />
               <li><strong>장소</strong> <span>{location}</span></li><br />
               <li><strong>기간</strong> <span>
-              {Moment({startDate}).lang("ko").format('YYYY-MM-DD (ddd)')} 
-                ~ {Moment({endDate}).lang("ko").format('YYYY-MM-DD (ddd)')}
+              {Moment({start}).lang("ko").format('YYYY-MM-DD (ddd)')} 
+                ~ {Moment({end}).lang("ko").format('YYYY-MM-DD (ddd)')}
               </span></li><br />
           </ul>
           </Info>
