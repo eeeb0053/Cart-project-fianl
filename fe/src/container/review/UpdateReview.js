@@ -47,8 +47,7 @@ const UpdateReview = (props) => {
         window.location.reload()
       })
       .catch(err => {
-        alert(`수정 실패`)
-        throw err;
+        alert(`수정실패: `+err)
       })
     }
   };
@@ -58,7 +57,7 @@ const UpdateReview = (props) => {
       const del = window.confirm("리뷰를 삭제하시겠습니까?")
       if(del){
         axios({
-          url: URL+props.singleReview.review.reviewNum,
+          url: URL+props.singleReview.reviewNum,
           method: 'delete',
           headers: {
             'Content-Type'  : 'application/json',
@@ -81,9 +80,9 @@ const UpdateReview = (props) => {
   }
 
   return (<>
-    { localStorage.getItem("user") == null ||
-     JSON.parse(localStorage.getItem("user")).username != props.singleReview.username
-       ? <></> :
+    { localStorage.getItem("cartuser") == null ||
+     (JSON.parse(localStorage.getItem("cartuser")).username != props.singleReview.username ||
+     JSON.parse(localStorage.getItem("cartuser")).admin == null)  ? <></> :
     <>
     <button className="btn" onClick={() => handleModalOpen('review')}>수정</button>
     <Modal
@@ -120,9 +119,8 @@ const UpdateReview = (props) => {
           rows={5} onChange = {e => {setReviewContent(`${e.target.value}`)}}
           id="reviewContent"
           name="reviewContent"
-          defaultValue=""
           control={control}
-          placeholder={props.singleReview.reviewContent}
+          defaultValue={props.singleReview.reviewContent}
           rules={{
             required: true,
           }}

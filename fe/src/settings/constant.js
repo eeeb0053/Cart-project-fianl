@@ -1,6 +1,7 @@
 // General Page Section
 export const HOME_PAGE = '/';
-export const USERS_PAGE = '/agents';
+export const LOGIN_HOME_PAGE = '/home';
+export const RESET_PAGE = '/reset';
 
 // Listing Single Page Section
 export const BOOKING_PAGE = '/booking';

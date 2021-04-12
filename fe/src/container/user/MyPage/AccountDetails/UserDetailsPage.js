@@ -96,7 +96,7 @@ const AgentProfileInfo = ({ match }) => {
     social_profile,
   } = data[0];
 
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
  
   return (
     <Fragment>

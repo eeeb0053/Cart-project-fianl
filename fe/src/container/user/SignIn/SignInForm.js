@@ -24,17 +24,6 @@ const SignInForm = () => {
   })
   const URL = 'http://localhost:8080';
 
-  const authHeader = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = localStorage.getItem('token');
-    if (user && token) {
-      return { Authorization: 'Bearer ' + token }; // for Spring Boot back-end
-      // return { 'x-access-token': user.accessToken };       // for Node.js Express back-end
-    } else {
-      return {};
-    }
-  }
-  
   const login = e => {
     e.preventDefault()
     axios({
@@ -45,7 +34,7 @@ const SignInForm = () => {
     })
     .then(response => {
       if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("cartuser", JSON.stringify(response.data.user));
         localStorage.setItem("token", response.data.token);
         history.goBack()
       } else{
@@ -55,10 +44,6 @@ const SignInForm = () => {
     .catch(error => {
       alert(`아이디 혹은 비밀번호가 일치하지 않습니다.`)
     });
-  }
-
-  const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));;
   }
  
   return (

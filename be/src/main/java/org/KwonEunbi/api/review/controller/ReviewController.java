@@ -59,13 +59,13 @@ public class ReviewController{
 				review.getReviewContent().equals(""))) {
 			r.setReviewContent(review.getReviewContent());
 		}
-		if(!(review.getScore().equals(r.getScore()) ||
-				review.getScore().equals("0"))) {
+		if(!(review.getScore()==r.getScore() ||
+				review.getScore()==0)) {
 			r.setScore(review.getScore());
 		}
 		ResponseEntity.ok(service.update(r));
-		Exhbn e = exhbnService.getOne(review.getExhbn().getExhbnNum());
-		e.setTotalScore(exhbnService.totalScore(review.getExhbn().getExhbnNum()));
+		Exhbn e = exhbnService.getOne(r.getExhbn().getExhbnNum());
+		e.setTotalScore(exhbnService.totalScore(r.getExhbn().getExhbnNum()));
 		return null;
 	}
 	@GetMapping("/count")

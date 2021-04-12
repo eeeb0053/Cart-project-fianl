@@ -1,39 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { RecommendExhbn, PopularExhbn, ShowingExhbn, SearchArea, HallGrid } from 'container/index';
-import { LayoutContext } from 'context/index';
-import { Waypoint } from 'react-waypoint';
-import { makeStyles } from '@material-ui/styles'
-
-const useStyles = makeStyles(() => ({}))
 
 const Home = () => {
-  const [, dispatch] = useContext(LayoutContext);
-  return (
-    <>
-    {localStorage.getItem("token") === null ? 
-      <>
+  if(localStorage.getItem("token") == null){
+    return(<>
       <SearchArea />
-      <Waypoint
-        onEnter={() => dispatch({ type: 'HIDE_TOP_SEARCHBAR' })}
-        onLeave={() => dispatch({ type: 'SHOW_TOP_SEARCHBAR' })}
-      />
       <HallGrid />
       <ShowingExhbn />
       <PopularExhbn />
-      </>
-    :
-    <><SearchArea />
-      <Waypoint
-        onEnter={() => dispatch({ type: 'HIDE_TOP_SEARCHBAR' })}
-        onLeave={() => dispatch({ type: 'SHOW_TOP_SEARCHBAR' })}
-      />
+      </>)
+  }else {
+    return(<>
+      <SearchArea />
       <HallGrid />
       <RecommendExhbn />
-      <PopularExhbn /></>
-    }
-
-    </>
-  );
+      <PopularExhbn />
+      </>)
+  }
+  
 };
 
 export default Home;

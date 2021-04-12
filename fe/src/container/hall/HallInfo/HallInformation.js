@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HallWrapper, { HallImage, HallBoxOne, 
   HallBoxTwo, HallBtn, ButtonBox } from 'container/hall/HallInfo/HallInformation.style';
 import { Heading, Text } from 'components/index';
-import { HALL_LIST_PAGE, ADD_HALL_PAGE, UPDATE_HALL_PAGE } from 'settings/constant';
+import { HALL_LIST_PAGE, ADD_HALL_PAGE, HALL_DETAIL_PAGE, UPDATE_HALL_PAGE } from 'settings/constant';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -25,7 +25,8 @@ const HallInformation = (props) => {
   const URL = 'http://localhost:8080/halls/'
   const deleteHall = e => {
     e.preventDefault()
-    window.confirm("전시관을 삭제하시겠습니까?")
+    const del = window.confirm("전시관을 삭제하시겠습니까?")
+    if(del){
     axios({
       url: URL+props.num,
       method: 'delete',
@@ -35,13 +36,14 @@ const HallInformation = (props) => {
       }
     })
     .then(resp => {
-      alert(`삭제 완료`)
-      history.push(ADD_HALL_PAGE)
+      alert(`삭제되었습니다.`)
+      history.replace(`${HALL_DETAIL_PAGE}/1`)
+      window.location.reload()
     })
     .catch(err => {
       alert(`삭제 실패`)
       throw err;
-    })
+    })}
   }
 
   return (
@@ -72,8 +74,8 @@ const HallInformation = (props) => {
           </div>
         </HallBtn>
       </HallBoxTwo>
-      { localStorage.getItem("user") == null ||
-     JSON.parse(localStorage.getItem("user")).admin != 1 ?
+      { localStorage.getItem("cartuser") == null ||
+     JSON.parse(localStorage.getItem("cartuser")).admin != 1 ?
      <></>
      : 
      <ButtonBox>

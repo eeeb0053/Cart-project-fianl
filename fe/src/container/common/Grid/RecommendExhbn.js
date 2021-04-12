@@ -6,23 +6,27 @@ import useDataApi from 'library/hooks/useDataApi';
 import { EXHBN_RECOMMEND_LIST_PAGE, EXHBN_DETAIL_PAGE } from 'settings/constant';
 import axios from 'axios';
 const RecommendExhbn = () => {
-  const { data, loading } = useDataApi('http://localhost:8080/exhbns/now');
+  const [ url, setUrl ] = useState('')
+  const { data, loading } = useDataApi(url);
   const { width } = useWindowSize();
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
   const [ exhbnList, setExhbnList ] = useState([])
-
-  const URL = 'http://localhost:8080/analyses/';
+  const URL = 'http://localhost:8080/recommends/';
   useEffect(() => {
+    if(user){
     axios.get(URL+user.userNum, {headers: {'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then(resp => {
       setExhbnList(resp.data)
     })
     .catch(err => {
       alert(err)
-    })
-  }, [])
+    })}
+    else{
+      return (<></>)
+    }
+  }, [exhbnList, setExhbnList])
 
-  let posts = data;
+  let posts = exhbnList;
   let limit;
 
   if (data && width <= 767) {

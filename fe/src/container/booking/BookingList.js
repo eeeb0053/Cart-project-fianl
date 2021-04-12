@@ -8,7 +8,7 @@ import Moment from 'moment';
 import 'moment/locale/ko'
 
 const BookingList = () => {
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
 
   const [bookingList, setBookingList] = useState([])
   const URL = 'http://localhost:8080/bookings/user/'
@@ -20,7 +20,7 @@ const BookingList = () => {
     .catch(err => {
       alert(err)
     })
-  })
+  }, [])
 
   const columns = [
     {

@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Map<String, Object> signin(String username, String password) {
 		try {
-			//   manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			//manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			Map<String, Object> map = new HashMap<>();
 			System.out.println("ID:  "+username);
 			UserVO user = userRepo.findByUsername(username);

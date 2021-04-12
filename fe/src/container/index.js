@@ -5,9 +5,6 @@ export {default as ExhibitionPhotos} from 'container/exhibition/ExhibitionPhotos
 export {default as UpdateExhbn} from 'container/exhibition/UpdateExhibition'
 export {default as UserDetailsPage} from 'container/user/MyPage/AccountDetails/UserDetailsPage'
 export {default as UserFavItemLists} from 'container/user/MyPage/AccountDetails/UserFavItemLists'
-export {default as AccountSettingsPage} from 'container/user/MyPage/AccountSettings/AccountSettingsPage'
-export {default as AccountUpdateOrDeleteForm} from 'container/user/MyPage/AccountSettings/AccountUpdateOrDeleteForm'
-export {default as ChangePassWord} from 'container/user/MyPage/AccountSettings/ChangePassWordForm'
 export {default as SignIn} from 'container/user/SignIn/SignIn'
 export {default as SignInForm} from 'container/user/SignIn/SignInForm'
 export {default as SignUp} from 'container/user/SignUp/SignUp'
@@ -35,6 +32,7 @@ export {default as Layout} from 'container/common/Layout/Layout'
 export {default as HallListing} from 'container/exhibition/Listing/HallListing'
 export {default as ShowingListing} from 'container/exhibition/Listing/ShowingListing'
 export {default as SearchListing} from 'container/exhibition/Listing/SearchListing'
+export {default as RecommendListing} from 'container/recommend/RecommendListing'
 export {default as Additional} from 'container/common/SinglePage/Additional/Additional'
 export {default as Booking} from 'container/booking/Booking'
 export {default as BookingDetail} from 'container/booking/BookingDetail'
@@ -61,5 +59,7 @@ export {default as ReviewDetail} from 'container/review/ReviewDetail';
 export {default as Pagination} from 'container/common/Pagination';
 export {default as ImageInput} from 'container/common/ImageInput';
 export {default as FileInput} from 'container/common/FileInput';
-export {default as MyResponsivePie} from 'container/analysis/MyResponsivePie'
-export {default as UserAnalysis} from 'container/analysis/UserAnalysis'
+export {default as MyUserPie} from 'container/analysis/MyUserPie'
+export {default as MyExhbnPie} from 'container/analysis/MyExhbnPie'
+export {default as Analysis} from 'container/analysis/Analysis'
+export {default as Settings} from 'container/user/MyPage/Settings'

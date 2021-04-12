@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { ResponsivePie } from '@nivo/pie'
 import axios from 'axios'
 import { Wrapper } from 'container/analysis/Analysis.style';
-import { MyResponsivePie } from 'container/'
+import { MyUserPie, MyExhbnPie } from 'container/index'
 import { Divider } from 'antd';
 
-const UserAnalysis = () => {
+const Analysis = () => {
     return(
     <Wrapper>
+        <h3>사용자별 분포</h3>
         <Divider />
-          <MyResponsivePie/>
+          <MyUserPie/>
+        <h3>전시별 분포</h3>
+        <Divider />
+          <MyExhbnPie/>
         <Divider> C:ART  |  Seoul Museum of Art </Divider>
     </Wrapper>
 )
 }
 
-export default UserAnalysis;
+export default Analysis;

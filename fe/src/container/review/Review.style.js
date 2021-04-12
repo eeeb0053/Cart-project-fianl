@@ -201,6 +201,7 @@ export const FilterElement = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
+  margin-top:10px;
   /* checkbox component style */
   .ant-checkbox-wrapper {
     width: 100%;
@@ -259,6 +260,7 @@ export const RatingMeta = styled.div`
 `;
 
 export const RatingWrapper = styled.span`
+  width: 80px;
   display: inline-flex;
   align-items: center;
   flex: 1;

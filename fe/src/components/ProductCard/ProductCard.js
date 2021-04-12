@@ -37,28 +37,26 @@ const responsive = {
   },
 };
 
-const PostGrid = ({
-  exhbn,
-  hallName
-}) => {
+const PostGrid = ({exhbnNum, exhbnTitle, exhbnImage, hallName, startDate, endDate, totalScore}) => {
   const [ isWishAdd, setIsWishAdd ] = useState(false)
-  const user = JSON.parse(localStorage.getItem('user'))
-  const [ usernum, setUsernum ] = useState(0);
-  const [ addWish ] = useState({
-    exhbnNum: exhbn.exhbnNum, userNum: 0
-  })
+  const [ usernum, setUsernum ] = useState(0)
   const URL = 'http://localhost:8080/wishlist'
+
   const wishAddHandler = () => {
     setIsWishAdd(!isWishAdd)
   }
   const wishHandler = e => {
-    setUsernum(user.userNum)
+    if(localStorage.getItem("loginuser")){
+      setUsernum(JSON.parse(localStorage.getItem("loginuser").userNum))
+    } else{
+      setUsernum(23)
+    }
     if (!isWishAdd) {
       axios({
         url: URL,
         method: 'post',
         headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")},
-        data: addWish
+        data: { userNum: usernum, exhbnNum }
       })
       .then(resp => {
         alert(`위시리스트에 추가되었습니다!`)
@@ -70,7 +68,7 @@ const PostGrid = ({
       })
     } else if (isWishAdd) {
       axios({
-        url: URL+"/"+user.userNum+"/"+exhbn.exhbnNum,
+        url: URL+"/"+usernum+"/"+exhbnNum,
         method: 'delete',
         headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")},
       })
@@ -89,12 +87,12 @@ const PostGrid = ({
       isCarousel={true}
       favorite={ <Favourite
         onClick={ wishHandler }
-        exhbnNum = {exhbn.exhbnNum}/> }
-      title={<TextLink link={`exhbns/${exhbn.exhbnNum}`} content={exhbn.exhbnTitle}/>}
+        exhbnNum = {exhbnNum}/> }
+      title={<TextLink link={`exhbns/${exhbnNum}`} content={exhbnTitle}/>}
       location={`${hallName}`}
-      date={`${Moment(exhbn.startDate).lang("ko").format('YYYY-MM-DD (ddd)')} 
-              ~ ${Moment(exhbn.endDate).lang("ko").format('YYYY-MM-DD (ddd)')}`}
-      rating={<Rating rating={exhbn.totalScore} ratingCount={exhbn.totalScore} type="bulk" />}
+      date={`${Moment(startDate).lang("ko").format('YYYY-MM-DD (ddd)')} 
+              ~ ${Moment(endDate).lang("ko").format('YYYY-MM-DD (ddd)')}`}
+      rating={<Rating rating={totalScore} ratingCount={totalScore} type="bulk" />}
     >
       <Carousel
         additionalTransfrom={0}
@@ -113,9 +111,9 @@ const PostGrid = ({
         slidesToSlide={1}
       >
           <img
-            src={exhbn.exhbnImage}
-            alt={exhbn.exhbnTitle}
-            key={exhbn.exhbnNum}
+            src={exhbnImage}
+            alt={exhbnTitle}
+            key={exhbnNum}
             draggable={false}
             style={{
               width: '100%',

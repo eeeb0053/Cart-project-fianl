@@ -20,7 +20,7 @@ const BookingForm = () => {
   const tickets = sessionStorage.getItem("tickets")
   const price = sessionStorage.getItem("price")
   const exhbnNum = sessionStorage.getItem("exhbnNum")
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
   let totalprice = useState('')
   { price === '무료' ? totalprice = '0원' :
           totalprice = (price*tickets).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원'}

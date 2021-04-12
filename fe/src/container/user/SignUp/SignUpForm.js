@@ -5,10 +5,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { MdLockOpen } from 'react-icons/md';
 import { Input, Switch, Button } from 'antd';
 import { FormControl } from 'components/index';
-import { FieldWrapper, SwitchWrapper, Label, StyledButton } from 'container/user/Auth.style';
-import { LOGIN_PAGE } from 'settings/constant'
-
-
+import { FieldWrapper, SwitchWrapper, Label } from 'container/user/Auth.style';
+import { HOME_PAGE } from 'settings/constant'
 
 const SignUpForm = () => {
   const { control } = useForm();
@@ -34,7 +32,7 @@ const SignUpForm = () => {
     })
       .then(resp => {
       alert('회원가입이 완료되었습니다.')
-      history.push(LOGIN_PAGE)
+      history.push(HOME_PAGE)
     })
     .catch(err => {
       alert('회원가입 실패')
@@ -80,7 +78,7 @@ const SignUpForm = () => {
           control={control}
           rules={{ required: true }}
         />
-        <StyledButton onClick={checkId}>중복확인</StyledButton>
+        <Button onClick={checkId}>중복확인</Button>
       </FormControl>
       <FormControl
         label="비밀번호"
@@ -116,13 +114,13 @@ const SignUpForm = () => {
           control={control}
           rules={{ required: true }}
         />
-        <StyledButton onClick={checkEmail}>중복확인</StyledButton>
+        <Button onClick={checkEmail}>중복확인</Button>
       </FormControl>
       <FormControl
         label="성별"
       >
-        <select name="gender" value={gender} defaultValue="" onChange={ onChange }>
-        <option value="selection">선택</option>
+        <select name="gender" value={gender} defaultValue="F" onChange={ onChange }>
+          <option value="selection">선택</option>
           <option value="F">여성</option>
           <option value="M">남성</option>
         </select>

@@ -2,13 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Menu, Button } from 'antd';
-import { LOGIN_PAGE, REGISTRATION_PAGE, ADMIN_PAGE } from 'settings/constant';
+import { HOME_PAGE, LOGIN_PAGE, REGISTRATION_PAGE, ADMIN_PAGE } from 'settings/constant';
 import { SettingOutlined } from '@ant-design/icons';
 
 const AuthMenu = ({ className }) => {
   const history = useHistory();
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("cartuser");
     localStorage.removeItem("token");
   }
   const click = e => {
@@ -17,7 +17,7 @@ const AuthMenu = ({ className }) => {
   }
   return (
     <><Menu className={className}>
-    { localStorage.getItem("token") != null && JSON.parse(localStorage.getItem("user")).admin != null ? 
+    { localStorage.getItem("cartuser") != null && JSON.parse(localStorage.getItem("cartuser")).admin != null ? 
        <SettingOutlined style={{ 'margin-right': '15px' }}
                         onClick={click}/> : <></>
     }
@@ -30,7 +30,7 @@ const AuthMenu = ({ className }) => {
       </Menu.Item></>
     :
       <Menu.Item key="0">
-        <NavLink to={LOGIN_PAGE} onClick={logout}>Logout</NavLink>
+        <NavLink to={HOME_PAGE} onClick={logout}>Logout</NavLink>
       </Menu.Item>
     } </Menu>
     </>

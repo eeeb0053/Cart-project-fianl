@@ -17,7 +17,7 @@ const ReviewDetail = ({match}) => {
   const { control, errors, handleSubmit } = useForm({
     mode: 'onChange',
     });
-  const URL='http://localhost:8080/reviews/review/'
+  const URL='http://localhost:8080/reviews/'
   const [state, setState] = useState({
     review: false,
     language: false,
@@ -27,7 +27,7 @@ const ReviewDetail = ({match}) => {
   const history = useHistory();
 
   useEffect(() => {
-    axios.get(URL+match.params.reviewNum, 
+    axios.get(URL+'review/'+match.params.reviewNum, 
               { headers: { 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then((resp) => {
       setReviewDetail(resp.data)
@@ -50,7 +50,7 @@ const ReviewDetail = ({match}) => {
           'Authorization' : 'Bearer '+localStorage.getItem("token")
         },
         data: {
-          score: score.toString() , reviewContent
+          score: score , reviewContent
         }
       })
       .then(resp => {
@@ -58,7 +58,7 @@ const ReviewDetail = ({match}) => {
         window.location.reload()
       })
       .catch(err => {
-        alert(`수정 실패`)
+        alert(`수정 실패 `+err)
         throw err;
       })
     }
@@ -92,7 +92,7 @@ const ReviewDetail = ({match}) => {
         history.goBack()
       })
       .catch(err => {
-        alert(`리뷰 삭제가 실패하였습니다.`)
+        alert(`리뷰 삭제가 실패하였습니다. `+err)
         throw err;
       })
     }
@@ -151,7 +151,6 @@ const ReviewDetail = ({match}) => {
             <FormControl
                 label="내용"
                 htmlFor="reviewContent"
-                error={errors.reviewContent && <span>This field is required!</span>}
             >
                 <Input.TextArea 
                 rows={5} onChange = {e => {setReviewContent(`${e.target.value}`)}}
@@ -159,7 +158,7 @@ const ReviewDetail = ({match}) => {
                 name="reviewContent"
                 defaultValue=""
                 control={control}
-                placeholder={reviewDetail.reviewContent}
+                defaultValue={reviewDetail.reviewContent}
                 rules={{
                     required: true,
                 }}

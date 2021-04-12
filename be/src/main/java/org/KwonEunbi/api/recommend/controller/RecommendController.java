@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import org.KwonEunbi.api.exhibition.domain.ExhbnHallDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +56,13 @@ public class RecommendController extends AbstractController<Recommend>{
 	@GetMapping("/exists/{id}")
 	public ResponseEntity<Boolean> existsById(@PathVariable long id) {
 		return ResponseEntity.ok(service.existsById(id));
+	}
+	@GetMapping("/{id}")
+	public ResponseEntity<List<ExhbnHallDTO>> listByGenre(@PathVariable long id) {
+		return ResponseEntity.ok(service.listByGenre(id));
+	}
+	@GetMapping("/1")
+	public ResponseEntity<List<ExhbnHallDTO>> listByMedia() {
+		return ResponseEntity.ok(service.listByMedia());
 	}
 }

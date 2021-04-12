@@ -7,5 +7,4 @@ import org.KwonEunbi.api.exhibition.domain.ExhbnHallDTO;
 import java.util.List;
 
 public interface AnalysisService {
-    public List<ExhbnHallDTO> listByGenre(long UserNum);
 }

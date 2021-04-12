@@ -1,10 +1,7 @@
 package org.KwonEunbi.api.exhibition.controller;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import com.querydsl.core.Tuple;
 import org.KwonEunbi.api.common.controller.AbstractController;
@@ -50,7 +47,19 @@ public class ExhbnController{
 
 	@PostMapping("/add")
 	public ResponseEntity<Long> add(@RequestBody ExhbnDTO e) {
-		e.setHall(hallService.getOne(e.getExhbnNum()));
+		System.out.println(e.toString());
+		e.setHall(hallService.getOne(e.getHallNum()));
+		if(e.getExhbnGenre().equals("painting")){
+			e.setExhbnGenre("회화");
+		}else if(e.getExhbnGenre().equals("craft")){
+			e.setExhbnGenre("공예");
+		}else if(e.getExhbnGenre().equals("media")){
+			e.setExhbnGenre("미디어");
+		}else if(e.getExhbnGenre().equals("sculpture")){
+			e.setExhbnGenre("조각");
+		}else if(e.getExhbnGenre().equals("installation")){
+			e.setExhbnGenre("설치");
+		}
 		return ResponseEntity.ok(service.add(e));
 	}
 	
@@ -61,10 +70,10 @@ public class ExhbnController{
 		if(!(t.getExhbnTitle().equals(e.getExhbnTitle()) || t.getExhbnTitle().equals(""))) {
 			e.setExhbnTitle(t.getExhbnTitle());
 		}
-		if(!(t.getStartDate().equals(e.getStartDate()) || t.getStartDate().equals(""))) {
+		if(!(t.getStartDate().equals(e.getStartDate()) || t.getStartDate().equals(new Date()))) {
 			e.setStartDate(t.getStartDate());
 		}
-		if(!(t.getEndDate().equals(e.getEndDate()) || t.getEndDate().equals(""))) {
+		if(!(t.getEndDate().equals(e.getEndDate()) || t.getEndDate().equals(new Date()))) {
 			e.setEndDate(t.getEndDate());
 		}
 		if(!(t.getExhbnGenre().equals(e.getExhbnGenre()) || t.getExhbnGenre().equals(""))) {
@@ -82,12 +91,10 @@ public class ExhbnController{
 		if(!(t.getExhbnImage().equals(e.getExhbnImage()) || t.getExhbnImage().equals(""))) {
 			e.setExhbnImage(t.getExhbnImage());
 		}
-		if(!(t.getTotalScore().equals(e.getTotalScore()) || t.getTotalScore().equals(""))) {
+		if(!(t.getTotalScore().equals(e.getTotalScore()) || t.getTotalScore()==0)) {
 			e.setTotalScore(t.getTotalScore());
 		}
-		if(!(t.getHall().getHallNum()==e.getHall().getHallNum() || t.getHall().getHallNum() == 0L)) {
-			e.setTotalScore(t.getTotalScore());
-		}
+
 		return ResponseEntity.ok(service.save(e));
 	}
 

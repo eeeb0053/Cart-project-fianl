@@ -11,18 +11,15 @@ import { FileInput } from 'container/index';
 const UpdateExhibition = ({ match }) => {
   const history = useHistory()
   const [ exhbnDetail, setExhbnDetail ] = useState([])
-
-  const [ updateExhbnData, setUpdateExhbnData ] = useState({
-    exhbnTitle: "", hallNum: 0, startDate: new Date(), endDate: new Date(), exhbnGenre: "",
-    exhbnPrice: "", exhbnArtist: "", exhbnContent: "", exhbnImage: "", totalScore: 0
-  })
-  const { exhbnTitle, hallNum, exhbnGenre, 
-          exhbnPrice, exhbnArtist, exhbnContent } = updateExhbnData
-  const [ startdate, setStartdate ] = useState(new Date())
-  const [ enddate, setEnddate ] = useState(new Date())
-  const onChange = useCallback(e => {
-    setUpdateExhbnData({...updateExhbnData, [e.target.name]: e.target.value})
-  })
+  const [ exhbnTitle, setExhbnTitle ] = useState('')
+  const [ exhbnGenre, setExhbnGenre ] = useState('')
+  const [ hallNum, setHallNum ] = useState(1)
+  const [ exhbnPrice, setExhbnPrice ] = useState('')
+  const [ exhbnArtist, setExhbnArtist ] = useState('')
+  const [ exhbnContent, setExhbnContent ] = useState('')
+  const [ startDate, setStartDate ] = useState(new Date())
+  const [ endDate, setEndDate ] = useState(new Date())
+  const [ exhbnImage, setExhbnImage ] = useState('')
   const [file, setFile] = useState({ 
 		fileName: null, 
 		fileURL: null 
@@ -34,9 +31,9 @@ const UpdateExhibition = ({ match }) => {
       fileURL: file.url,
     });
   }
-
+  const URL = 'http://localhost:8080/exhbns/'
   useEffect(() => {
-    axios.get("http://localhost:8080/exhbns/"+match.params.exhbnNum)
+    axios.get(URL+match.params.exhbnNum)
     .then((resp) => {
       setExhbnDetail(resp.data)
     })
@@ -48,19 +45,21 @@ const UpdateExhibition = ({ match }) => {
 
   const updateExhbn = e => {
     e.preventDefault()
-    setUpdateExhbnData({...updateExhbnData, exhbnImage: file.url})
-    setUpdateExhbnData({...updateExhbnData, startDate: startdate})
-    setUpdateExhbnData({...updateExhbnData, endDate: enddate})
     const del = window.confirm("전시를 수정하시겠습니까?")
+    { file ? setExhbnImage(file.fileURL) : setExhbnImage('') }
     if(del){
     axios({
-      url: 'http://localhost:8080/exhbns/'+match.params.exhbnNum,
+      url: URL+match.params.exhbnNum,
       method: 'put',
       headers: {
         'Content-Type'  : 'application/json',
         'Authorization' : 'Bearer '+localStorage.getItem("token")
       },
-       data: updateExhbnData
+       data: {
+        exhbnTitle, exhbnGenre, hallNum, exhbnPrice, 
+        exhbnArtist, exhbnContent, startDate, endDate, exhbnImage,
+        totalScore: 0
+       }
     })
     .then(resp => {
       alert(`수정 완료`)
@@ -71,148 +70,152 @@ const UpdateExhibition = ({ match }) => {
       throw err;
     })}
   }
-  
-  return (
-    <form>
-      <FormContent>
-        <FormHeader>
-          <Title>전시회 수정</Title>
-        </FormHeader>
-        <Row gutter={30}>
-          <Col sm={12}>
+  if(exhbnDetail.exhbn){
+    return (
+      <form>
+        <FormContent>
+          <FormHeader>
+            <Title>전시회 수정</Title>
+          </FormHeader>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="전시 포스터"
+                htmlFor="exhbnImage"
+              >
+              <FileInput onFileChange={onFileChange} name={file.fileName}/>
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="제목"
+                htmlFor="exhbnTitle"
+              >
+              <Input name="exhbnTitle" value={exhbnTitle}
+                    placeholder={exhbnDetail.exhbnTitle} 
+                    onChange = { e => {setExhbnTitle(`${ e.target.value }`)} }/>
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
             <FormControl
-              label="전시 포스터"
-              htmlFor="exhbnImage"
-            >
-            <FileInput onFileChange={onFileChange} name={file.fileName}/>
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="제목"
-              htmlFor="exhbnTitle"
-            >
-            <Input name="exhbnTitle" value={exhbnTitle}
-                  placeholder={exhbnDetail.exhbn.exhbnTitle} 
-                  onChange = { onChange }/>
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
+                label="장소"
+                htmlFor="hallNum"
+              >
+              <select name="hallNum" onChange={ e => {setHallNum(`${ e.target.value }`)} }>
+                <option value="selection">선택</option>
+                <option value="1">서소문본관</option>
+                <option value="2">북서울미술관</option>
+                <option value="3">남서울미술관</option>
+                <option value="4">난지미술창작스튜디오</option>
+                <option value="5">SeMA창고</option>
+                <option value="6">백남준기념관</option>
+                <option value="7">SeMA벙커</option>
+              </select>
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="시작 날짜"
+                htmlFor="startDate"
+              >
+              <DatePicker
+                name="startDate"
+                dateFormat="yyyy-MM-dd"
+                selected={startDate}
+                onChange={date => setStartDate(date)}
+              />
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="종료 날짜"
+                htmlFor="endDate"
+              >
+              <DatePicker
+                name="endDate"
+                // value={startDate}
+                dateFormat="yyyy-MM-dd"
+                selected={endDate}
+                onChange={date => setEndDate(date)}
+                minDate={startDate}
+              />
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="가격"
+                htmlFor="exhbnPrice"
+              >
+              <Input id="exhbnPrice" name="exhbnPrice" value={exhbnPrice} 
+                    placeholder ={exhbnDetail.exhbnPrice } 
+                    onChange = { e => {setExhbnPrice(`${ e.target.value }`)} }/>
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="장르"
+                htmlFor="exhbnGenre"
+              >
+            <select name="exhbnGenre" onChange={ e => {setExhbnGenre(`${ e.target.value }`)} }>
+              <option value="selection">선택</option>
+              <option value="painting">회화</option>
+              <option value="media">미디어</option>
+              <option value="sculpture">조각</option>
+              <option value="craft">공예</option>
+              <option value="installation">설치</option>
+            </select>  
+              </FormControl>
+            </Col>
+          </Row>
+          <Row gutter={30}>
+            <Col sm={12}>
+              <FormControl
+                label="작가"
+                htmlFor="exhbnArtist"
+              >
+              {exhbnDetail && 
+              <Input id="exhbnArtist" name="exhbnArtist" value={exhbnArtist}
+                    placeholder={exhbnDetail.exhbnArtist} 
+                    onChange = { e => {setExhbnArtist(`${ e.target.value }`)} }/> }  
+              </FormControl>
+            </Col>
+          </Row>
           <FormControl
-              label="장소"
-              htmlFor="hallNum"
-              // error={errors.hallLocation && <span>이 입력란을 작성해주세요!</span>}
-            >
-            <select name="hallNum" value={hallNum} onChange={ onChange }>
-              <option value="1">서소문본관</option>
-              <option value="2">북서울미술관</option>
-              <option value="3">남서울미술관</option>
-              <option value="4">난지미술창작스튜디오</option>
-              <option value="5">SeMA창고</option>
-              <option value="6">백남준기념관</option>
-              <option value="7">SeMA벙커</option>
-            </select>
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="시작 날짜"
-              htmlFor="startDate"
-              // error={errors.startDate && <span>이 입력란을 작성해주세요!</span>}
-            >
-            <DatePicker
-              name="startDate"
-              // value={startDate}
-              dateFormat="yyyy-MM-dd"
-              selected={startdate}
-              onChange={date => setStartdate(date)}
-            />
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="종료 날짜"
-              htmlFor="endDate"
-            >
-            <DatePicker
-              name="endDate"
-              // value={startDate}
-              dateFormat="yyyy-MM-dd"
-              selected={enddate}
-              onChange={date => setEnddate(date)}
-              minDate={startdate}
-            />
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="가격"
-              htmlFor="exhbnPrice"
-            >
-            { exhbnDetail && <Input id="exhbnPrice" name="exhbnPrice" value={exhbnPrice} 
-                  placeholder={ exhbnDetail.exhbn.exhbnPrice} 
-                  onChange = { onChange }/> }    
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="장르"
-              htmlFor="exhbnGenre"
-              // error={errors.exhbnGenre && <span>이 입력란을 작성해주세요!</span>}
-            >
-          <select name="exhbnGenre" value={exhbnGenre} onChange={ onChange }>
-            <option value="selection">선택</option>
-            <option value="painting">회화</option>
-            <option value="media">미디어</option>
-            <option value="sculpture">조각</option>
-            <option value="craft">공예</option>
-            <option value="installation">설치</option>
-          </select>  
-            </FormControl>
-          </Col>
-        </Row>
-        <Row gutter={30}>
-          <Col sm={12}>
-            <FormControl
-              label="작가"
-              htmlFor="exhbnArtist"
-            >
-            <Input id="exhbnArtist" name="exhbnArtist" value={exhbnArtist}
-                  placeholder={exhbnDetail.exhbn.exhbnArtist} 
-                  onChange = { onChange }/>   
-            </FormControl>
-          </Col>
-        </Row>
-        <FormControl
-          label="전시 소개"
-          htmlFor="exhbnContent"
-        >
-        <Input.TextArea rows={5} id="exhbnContent" name="exhbnContent" value={exhbnContent}
-                  placeholder={exhbnDetail.exhbn.exhbnContent} 
-                  onChange = { onChange }/>     
-        </FormControl>
-      </FormContent>
-      <FormAction>
-        <div className="inner-wrapper">
-          <Button type="submit" htmlType="submit" onClick={ updateExhbn } >
-            수정하기
-          </Button>
-        </div>
-      </FormAction>
-    </form>
-  );
+            label="전시 소개"
+            htmlFor="exhbnContent"
+          >
+          <Input.TextArea rows={5} id="exhbnContent" name="exhbnContent" value={exhbnContent}
+                    placeholder={exhbnDetail.exhbnContent} 
+                    onChange = { e => {setExhbnContent(`${ e.target.value }`)} }/>  
+          </FormControl>
+        </FormContent>
+        <FormAction>
+          <div className="inner-wrapper">
+            <Button type="submit" htmlType="submit" onClick={ updateExhbn } >
+              수정하기
+            </Button>
+          </div>
+        </FormAction>
+      </form>
+    );
+  }else{
+    return(
+    <h4>Loading...</h4>
+    )
+  }
+  
 };
 
 export default UpdateExhibition;

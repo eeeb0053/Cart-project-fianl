@@ -5,9 +5,22 @@ import { REVIEW_DETAIL_PAGE } from 'settings/constant';
 import { TextLink } from 'components/index';
 import Moment from 'moment';
 import 'moment/locale/ko'
+import axios from 'axios';
 
 const ReviewList = () => {
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
+  const [ reviewList, setReviewList ] = useState([])
+
+  useEffect(() => {
+    const URL = 'http://localhost:8080/reviews/user/'
+    axios.get(URL+user.userNum, { headers: { 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
+    .then(resp => {
+      setReviewList(resp.data)
+    })
+    .catch(err => {
+      alert('유저 리뷰리스트 '+err)
+    })
+  }, [])
 
   const columns = [
     {
@@ -35,7 +48,7 @@ const ReviewList = () => {
       <Divider />
       <Title>리뷰 목록</Title>
       <TableWrapper>
-      <Table dataSource={user.reviewList} 
+      <Table dataSource={reviewList} 
              columns={columns} /></TableWrapper>
       <Divider> C:ART  |  Seoul Museum of Art </Divider>
     </ListWrapper>

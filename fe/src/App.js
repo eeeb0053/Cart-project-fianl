@@ -28,7 +28,9 @@ import {
   UPDATE_HALL_PAGE,
   REVIEW_LIST_PAGE,
   ANAL_PAGE,
-  ADMIN_PAGE
+  ADMIN_PAGE,
+  LOGIN_HOME_PAGE,
+  RESET_PAGE
 } from 'settings/constant';
 
 /**
@@ -41,6 +43,16 @@ const Loading = () => null;
 const routes = [
   {
     path: HOME_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/common/Home'),
+      loading: Loading,
+      modules: ['Home'],
+    }),
+    exact: true,
+  },
+  {
+    path: LOGIN_HOME_PAGE,
     component: Loadable({
       loader: () =>
         import('container/common/Home'),
@@ -125,7 +137,7 @@ const routes = [
     path: EXHBN_RECOMMEND_LIST_PAGE,
     component: Loadable({
       loader: () =>
-        import('container/exhibition/Listing/RecommendListing'),
+        import('container/recommend/RecommendListing'),
       loading: Loading,
       modules: ['ExhibitionList'],
     }),
@@ -242,9 +254,9 @@ const routes = [
     path: ANAL_PAGE,
     component: Loadable({
       loader: () =>
-        import('container/analysis/MyResponsivePie'),
+        import('container/analysis/Analysis'),
       loading: Loading,
-      modules: ['MyResponsivePie'],
+      modules: ['Analysis'],
     }),
   },
   {
@@ -256,22 +268,16 @@ const routes = [
       modules: ['Dashboard'],
     }),
   },
+  {
+    path: RESET_PAGE,
+    component: Loadable({
+      loader: () =>
+        import('container/Reset'),
+      loading: Loading,
+      modules: ['Dashboard'],
+    }),
+  },
 ];
-
-/**
- *
- * Protected Route Component
- *
- */
-
-const AccountSettingsPage = Loadable({
-  loader: () =>
-    import('container/user/MyPage/AccountSettings/AccountSettingsPage'),
-  loading: Loading,
-  modules: ['AccountSettingsPage'],
-});
-
-
 
 /**
  *

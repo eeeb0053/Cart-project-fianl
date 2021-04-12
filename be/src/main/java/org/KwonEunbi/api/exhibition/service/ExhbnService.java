@@ -22,7 +22,6 @@ public interface ExhbnService {
 	public List<ExhbnHallDTO> nowInExhbn();
 	public List<ExhbnHallDTO> finExhbn();
 	public List<ExhbnHallDTO> findByHall(long id);
-	public List<ExhbnHallDTO> findByGenre(String genre);
 	public List<ExhbnHallDTO> topList();
 	public List<ExhbnHallDTO> findAllInfo();
 	public ExhbnHallDTO findByExhbnNum(long id);

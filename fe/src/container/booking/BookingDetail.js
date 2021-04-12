@@ -22,7 +22,7 @@ const BookingDetail = ({match}) => {
   const history = useHistory();
   const URL = 'http://localhost:8080/bookings/'
 
-  useEffect(e => {
+  useEffect(() => {
     axios.get(URL+match.params.bookNum, 
               { headers: { 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then((resp) => {
@@ -104,18 +104,18 @@ const BookingDetail = ({match}) => {
         <div>
         <Title>예매자 정보</Title><br/>
         <Label>예매자명</Label>
-        <Input className="inputbox" name="bookName" value={bookName}
-          placeholder = { bookingDetail.bookName }
+        <Input className="inputbox" name="bookName"
+          defaultValue = { bookingDetail.bookName }
           onChange = { onChange }
           /><br/>
         <Label>이메일</Label>
-        <Input name="bookEmail" value={bookEmail}
-          placeholder = { bookingDetail.bookEmail }
+        <Input name="bookEmail"
+          defaultValue = { bookingDetail.bookEmail }
           onChange = { onChange }
           required /><br/>
         <Label>전화번호</Label>
-        <Input name="bookPnumber" value={bookPnumber}
-          placeholder = { bookingDetail.bookPnumber }
+        <Input name="bookPnumber"
+          defaultValue = { bookingDetail.bookPnumber }
           onChange = { onChange }
           required />
         </div>

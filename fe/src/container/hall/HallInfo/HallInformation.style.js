@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 
 const HallWrapper = styled.div`
-  padding: 50px 0px 50px 0px;
+  padding: 30px 0px 50px 0px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;

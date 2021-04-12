@@ -2,10 +2,8 @@ import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
 
 
-export const StyledButton = styled.button`
+export const Button = styled.button`
 color: #ffffff;
-background-color: #97abd1;
-box-shadow: #97abd1 0 0px 0px 2px inset;
 `;
 
 const Wrapper = styled.div`

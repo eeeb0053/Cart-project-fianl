@@ -24,6 +24,7 @@ public class ExhbnDTO {
     private Float totalScore;
     private Hall hall;
 
+    /*
     public ExhbnDTO(Exhbn e) {
         this.exhbnNum = e.getExhbnNum();
         this.hallNum = e.getHall().getHallNum();
@@ -36,7 +37,7 @@ public class ExhbnDTO {
         this.exhbnContent = e.getExhbnContent();
         this.exhbnImage = e.getExhbnImage();
         this.totalScore = e.getTotalScore();
-    }
+    } */
 
     public Exhbn toEntity(){
         return Exhbn.builder()

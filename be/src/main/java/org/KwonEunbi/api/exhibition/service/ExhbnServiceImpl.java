@@ -44,7 +44,7 @@ public class ExhbnServiceImpl implements ExhbnService {
 		return repo.searchTitle(exhbnTitle).stream().collect(Collectors.toList());}
 	@Override
 	public List<ExhbnHallDTO> topList(){
-		return repo.findByScore();
+		return repo.findByScore().stream().limit(10).collect(Collectors.toList());
 	}
 	@Override
 	public List<ExhbnHallDTO> nowInExhbn(){
@@ -56,9 +56,6 @@ public class ExhbnServiceImpl implements ExhbnService {
 	public List<ExhbnHallDTO> findByHall(long id){
 		return repo.findByHall(id);
 	}
-	@Override
-	public List<ExhbnHallDTO> findByGenre(String genre){
-		return repo.findByGenre(genre);}
 	@Override
 	public float totalScore(long l){
 		Exhbn exhbn = getOne(l);

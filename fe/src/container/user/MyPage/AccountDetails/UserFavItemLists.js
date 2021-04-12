@@ -9,7 +9,7 @@ const UserFavItemLists = () => {
   const [ exhbnList, setExhbnList ] = useState([])
   const favourite_post =
     data[0] && data[0].favourite_post ? data[0].favourite_post : [];
-  const user = JSON.parse(localStorage.getItem("user"))
+  const user = JSON.parse(localStorage.getItem("cartuser"))
 
   const URL = 'http://localhost:8080/wishlist';
   useEffect(() => {

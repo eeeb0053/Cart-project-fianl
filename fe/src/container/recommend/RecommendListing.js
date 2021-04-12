@@ -9,25 +9,49 @@ import { EXHBN_DETAIL_PAGE } from 'settings/constant';
 import ListingWrapper, { PostsWrapper } from 'container/exhibition/Listing/Listing.style';
 
 const RecommendListing = ({ location, history }) => {
-
-  const [exhbnList, setExhbnList] = useState([])
-
+  const [ url, setUrl ] = useState('')
+  if(JSON.parse(localStorage.getItem("cartuser").preferGenre == '미디어')){
+    setUrl='http://localhost:8080/recommends/1'
+  }
   const { width } = useWindowSize();
-  const { data, loading, loadMoreData, total, limit } = useDataApi('http://localhost:8080/exhbns/now');
+  const { data, loading, loadMoreData, total } = useDataApi(url);
   let columnWidth = [1 / 1, 1 / 2, 1 / 3, 1 / 4, 1 / 5];
-
-  const user = JSON.parse(localStorage.getItem("user"))
-
-  const URL = 'http://localhost:8080/analyses/';
+  const user = JSON.parse(localStorage.getItem("cartuser"))
+  const [ exhbnList, setExhbnList ] = useState([])
+  const URL = 'http://localhost:8080/recommends/';
   useEffect(() => {
+    if(user){
     axios.get(URL+user.userNum, {headers: {'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then(resp => {
       setExhbnList(resp.data)
     })
     .catch(err => {
       alert(err)
-    })
-  }, [])
+    })}
+    else{
+      return (<></>)
+    }
+  }, [exhbnList, setExhbnList])
+
+  let posts = exhbnList;
+  let limit;
+
+  if (data && width <= 767) {
+    posts = data.slice(0, 4);
+    limit = 4;
+  }
+  if (data && width >= 768) {
+    posts = data.slice(0, 6);
+    limit = 6;
+  }
+  if (data && width >= 992) {
+    posts = data.slice(0, 8);
+    limit = 8;
+  }
+  if (data && width >= 1200) {
+    posts = data.slice(0, 10);
+    limit = 10;
+  }
 
   return (
     <>

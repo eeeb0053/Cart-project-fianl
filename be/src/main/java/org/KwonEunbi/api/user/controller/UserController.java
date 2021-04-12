@@ -85,6 +85,17 @@ public class UserController {
 		if(!(u.getPhoneNumber().equals(user.getPhoneNumber()) || user.getPhoneNumber().equals(""))) {
 			u.setPhoneNumber(user.getPhoneNumber());
 		}
+		if(u.getPreferGenre().equals("painting")){
+			u.setPreferGenre("회화");
+		}else if(u.getPreferGenre().equals("craft")){
+			u.setPreferGenre("공예");
+		}else if(u.getPreferGenre().equals("media")){
+			u.setPreferGenre("미디어");
+		}else if(u.getPreferGenre().equals("sculpture")){
+			u.setPreferGenre("조각");
+		}else if(u.getPreferGenre().equals("installation")){
+			u.setPreferGenre("설치");
+		}
 		return ResponseEntity.ok(userService.save(u));
 	}
 	@DeleteMapping("/{id}")

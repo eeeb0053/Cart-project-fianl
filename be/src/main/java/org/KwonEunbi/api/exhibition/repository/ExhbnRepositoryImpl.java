@@ -31,12 +31,15 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 		this.em = em;
 		this.qf = qf;
 	}
-	
+
 	@Override
 	public List<ExhbnHallDTO> searchTitle(String exhbnTitle) {
 		//return em.createQuery("select exh from Exhbn exh where exh.exhbnTitle like CONCAT('%',:title,'%')")
 		//		.setParameter("title", exhbnTitle).getResultList();
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn).where(exhbn.exhbnTitle.contains(exhbnTitle))
 				.orderBy(exhbn.exhbnNum.desc())
 				.fetch();
@@ -45,7 +48,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	@Override
 	public List<ExhbnHallDTO> nowInExhbn(){
 		Date nowDate = new Date();
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.where(exhbn.startDate.before(nowDate), exhbn.endDate.after(nowDate))
 				.orderBy(exhbn.startDate.desc()).fetch();
@@ -54,7 +60,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	@Override
 	public List<ExhbnHallDTO> finExhbn(){
 		Date nowDate = new Date();
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.where(exhbn.endDate.before(nowDate))
 				.orderBy(exhbn.endDate.asc())
@@ -63,7 +72,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 
 	@Override
 	public List<ExhbnHallDTO> findByHall(long id){
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn).where(hall.hallNum.eq(id))
 				.orderBy(exhbn.exhbnNum.desc())
 				.fetch();
@@ -72,7 +84,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	@Override
 	public List<ExhbnHallDTO> findByGenre(String genre) {
 		Date nowDate = new Date();
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.where(exhbn.exhbnGenre.eq(genre), exhbn.startDate.before(nowDate),
 						exhbn.endDate.after(nowDate))
@@ -83,7 +98,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	@Override
 	public List<ExhbnHallDTO> findByScore() {
 		Date nowDate = new Date();
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.where(exhbn.totalScore.isNotNull())
 				.orderBy(exhbn.totalScore.desc())
@@ -92,7 +110,10 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 
 	@Override
 	public List<ExhbnHallDTO> findAllInfo() {
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.orderBy(exhbn.exhbnNum.desc())
 				.fetch();
@@ -100,10 +121,26 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 
 	@Override
 	public ExhbnHallDTO findByExhbnNum(long id){
-		return qf.select(Projections.bean(ExhbnHallDTO.class, exhbn, exhbn.hall.hallName))
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
 				.from(exhbn)
 				.where(exhbn.exhbnNum.eq(id))
 				.fetchOne();
 	}
 
+	@Override
+	public List<ExhbnHallDTO> findByMedia() {
+		Date nowDate = new Date();
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.exhbnGenre.eq("미디어"), exhbn.startDate.before(nowDate),
+						exhbn.endDate.after(nowDate))
+				.orderBy(exhbn.exhbnNum.desc())
+				.fetch();
+	}
 }

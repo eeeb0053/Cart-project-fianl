@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/users/signup").permitAll()//
                 .antMatchers("/users/findId/{id}").permitAll()//
                 .antMatchers("/users/checkId/{id}").permitAll()//
+                .antMatchers("/users/checkEmail/{id}").permitAll()//
                 .antMatchers("/exhbns").permitAll()
                 .antMatchers("/exhbns/all").permitAll()
                 .antMatchers("/exhbns/allInfo").permitAll()
@@ -70,6 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/reviews/{id}").permitAll()
                 .antMatchers("/reviews/exhbn/{id}").permitAll()
                 .antMatchers("/wishlist").permitAll()
+                .antMatchers("/analyses/review/{id}").permitAll()
+                .antMatchers("/recommends/{id}").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();

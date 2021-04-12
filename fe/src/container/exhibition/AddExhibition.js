@@ -19,8 +19,8 @@ const AddExhibition = ({ })  => {
   const [ exhbnPrice, setExhbnPrice ] = useState('')
   const [ exhbnArtist, setExhbnArtist ] = useState('')
   const [ exhbnContent, setExhbnContent ] = useState('')
-  const [ startdate, setStartdate ] = useState(new Date())
-  const [ enddate, setEnddate ] = useState(new Date())
+  const [ startDate, setStartDate ] = useState(new Date())
+  const [ endDate, setEndDate ] = useState(new Date())
   const [file, setFile] = useState({ 
 		fileName: null, 
 		fileURL: null 
@@ -38,14 +38,14 @@ const AddExhibition = ({ })  => {
     const del = window.confirm("전시회를 등록하시겠습니까?")
     if(del){
     axios({
-      url: URL+'/exhbns', 
+      url: URL+'/exhbns/add', 
       method: 'post',
       headers: {
         'Content-Type'  : 'application/json',
         'Authorization' : 'Bearer '+localStorage.getItem("token")
       },
       data: { exhbnTitle, exhbnGenre, hallNum, exhbnPrice, 
-        exhbnArtist, exhbnContent, startdate, enddate, exhbnImage: file.fileURL,
+        exhbnArtist, exhbnContent, startDate, endDate, exhbnImage: file.fileURL,
         totalScore: 0}
     }) 
     .then(resp => {
@@ -95,6 +95,7 @@ const AddExhibition = ({ })  => {
               // error={errors.hallLocation && <span>이 입력란을 작성해주세요!</span>}
             >
             <select name="hallNum" onChange={ e => {setHallNum(`${ e.target.value }`)} }>
+              <option value="selection">선택</option>
               <option value="1">서소문본관</option>
               <option value="2">북서울미술관</option>
               <option value="3">남서울미술관</option>
@@ -116,8 +117,8 @@ const AddExhibition = ({ })  => {
             <DatePicker
               name="startDate"
               dateFormat="yyyy-MM-dd"
-              selected={startdate}
-              onChange={date => setStartdate(date)}
+              selected={startDate}
+              onChange={date => setStartDate(date)}
             />
             </FormControl>
           </Col>
@@ -132,9 +133,9 @@ const AddExhibition = ({ })  => {
             <DatePicker
               name="endDate"
               dateFormat="yyyy-MM-dd"
-              selected={enddate}
-              onChange={date => setEnddate(date)}
-              minDate={startdate}
+              selected={endDate}
+              onChange={date => setEndDate(date)}
+              minDate={startDate}
             />
             </FormControl>
           </Col>
@@ -159,7 +160,7 @@ const AddExhibition = ({ })  => {
               htmlFor="exhbnGenre"
               // error={errors.exhbnGenre && <span>이 입력란을 작성해주세요!</span>}
             >
-          <select name="exhbnGenre" onChange={ e => {setExhbnGenre(`${ e.target.value }`)} }>
+          <select name="exhbnGenre" defaultValue="painting" onChange={ e => {setExhbnGenre(`${ e.target.value }`)} }>
             <option value="selection">선택</option>
             <option value="painting">회화</option>
             <option value="media">미디어</option>

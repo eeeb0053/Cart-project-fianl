@@ -17,6 +17,7 @@ interface ExhbnCustomRepository{
 	public List<ExhbnHallDTO> finExhbn();
 	public List<ExhbnHallDTO> findByHall(long id);
 	public List<ExhbnHallDTO> findByGenre(String genre);
+	public List<ExhbnHallDTO> findByMedia();
 	public List<ExhbnHallDTO> findByScore();
 	public List<ExhbnHallDTO> findAllInfo();
 	public ExhbnHallDTO findByExhbnNum(long id);

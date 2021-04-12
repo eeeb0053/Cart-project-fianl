@@ -10,7 +10,7 @@ import SinglePageWrapper, { ButtonBox } from 'container/exhibition/ExhibitionDet
 import isEmpty from 'lodash/isEmpty';
 import axios from 'axios'
 import { useHistory } from 'react-router';
-import { ADD_EXHBN_PAGE, UPDATE_EXHBN_PAGE } from 'settings/constant';
+import { ADD_EXHBN_PAGE, UPDATE_EXHBN_PAGE, EXHBN_ALL_LIST_PAGE } from 'settings/constant';
 import { Link } from 'react-router-dom';
 
 const ExhibitionDetail = ({ match }) => {
@@ -22,7 +22,7 @@ const ExhibitionDetail = ({ match }) => {
 
   const URL = `http://localhost:8080/`
   
-  useEffect(e => {
+  useEffect(() => {
     axios.get(URL+'exhbns/'+match.params.exhbnNum)
     .then(resp => {
       setExhbnDetail(resp.data)
@@ -56,7 +56,7 @@ const ExhibitionDetail = ({ match }) => {
     })
     .then(resp => {
       alert(`삭제 완료`)
-      history.goBack()
+      history.push(EXHBN_ALL_LIST_PAGE)
     })
     .catch(err => {
       alert(`삭제 실패`)
@@ -66,14 +66,14 @@ const ExhibitionDetail = ({ match }) => {
   
   return (
     <SinglePageWrapper>
-       {localStorage.getItem("user") == null ||
-        JSON.parse(localStorage.getItem("user")).admin != 1 ? 
+       {localStorage.getItem("cartuser") == null ||
+        JSON.parse(localStorage.getItem("cartuser")).admin != 1 ? 
         <></>
         : <ButtonBox>
         <Link to={ADD_EXHBN_PAGE}>
         <button className="btn">등록</button>
         </Link>
-        <Link to={`${UPDATE_EXHBN_PAGE}/${exhbnDetail.exhbn.exhbnNum}`}>
+        <Link to={`${UPDATE_EXHBN_PAGE}/${exhbnDetail.exhbnNum}`}>
         <button className="btn">수정</button>
         </Link>
         <button className="cancle-btn" onClick={ deleteExhbn }>삭제</button>
@@ -83,18 +83,18 @@ const ExhibitionDetail = ({ match }) => {
         <Row gutter={30}>
           <Col xl={16}>
             <Summary
-              title={exhbnDetail.exhbn.exhbnTitle} 
-              number={exhbnDetail.exhbn.exhbnNum}
+              title={exhbnDetail.exhbnTitle} 
+              number={exhbnDetail.exhbnNum}
               location={exhbnDetail.hallName}
-              genre={exhbnDetail.exhbn.exhbnGenre}
-              artist={exhbnDetail.exhbn.exhbnArtist}
-              start={exhbnDetail.exhbn.startDate}
-              end={exhbnDetail.exhbn.endDate}
-              price={exhbnDetail.exhbn.exhbnPrice}
-              rating={exhbnDetail.exhbn.totalScore}
-              ratingCount={exhbnDetail.exhbn.totalScore}
+              genre={exhbnDetail.exhbnGenre}
+              artist={exhbnDetail.exhbnArtist}
+              start={exhbnDetail.startDate}
+              end={exhbnDetail.endDate}
+              price={exhbnDetail.exhbnPrice}
+              rating={exhbnDetail.totalScore}
+              ratingCount={exhbnDetail.totalScore}
               shareURL={href} 
-              media={exhbnDetail.exhbn.exhbnImage}
+              media={exhbnDetail.exhbnImage}
             />
           </Col>
           <Col xl={8}>
@@ -105,30 +105,30 @@ const ExhibitionDetail = ({ match }) => {
                 top={83}
                 bottomBoundary="#reviewSection"
               >
-                <Reservation number={exhbnDetail.exhbn.exhbnNum} price={exhbnDetail.exhbn.exhbnPrice}/>
+                <Reservation number={exhbnDetail.exhbnNum} price={exhbnDetail.exhbnPrice}/>
               </Sticky>
             ) : (
               <BottomReservation
-                title={exhbnDetail.exhbn.exhbnTitle}
-                price={exhbnDetail.exhbn.exhbnPrice}
-                rating={exhbnDetail.exhbn.totalScore}
-                ratingCount={exhbnDetail.exhbn.totalScore}
+                title={exhbnDetail.exhbnTitle}
+                price={exhbnDetail.exhbnPrice}
+                rating={exhbnDetail.totalScore}
+                ratingCount={exhbnDetail.totalScore}
               />
             )}
           </Col>
         </Row>
       </Container>
       <Container>
-      <TopBar title={exhbnDetail.exhbn.exhbnTitle} shareURL={href} media={exhbnDetail.exhbn.exhbnImage} />
+      <TopBar title={exhbnDetail.exhbnTitle} shareURL={href} media={exhbnDetail.exhbnImage} />
       
         <Row gutter={30} id="reviewSection" style={{ marginTop: 30 }}>
           <Col xl={16}>
             <Description
-              content={exhbnDetail.exhbn.exhbnContent}
-              title={exhbnDetail.exhbn.exhbnTitle}
+              content={exhbnDetail.exhbnContent}
+              title={exhbnDetail.exhbnTitle}
               location={exhbnDetail.hallName}
-              rating={exhbnDetail.exhbn.totalScore}
-              ratingCount={exhbnDetail.exhbn.totalScore}
+              rating={exhbnDetail.totalScore}
+              ratingCount={exhbnDetail.totalScore}
             />
             <Notice />
           </Col>
@@ -137,7 +137,8 @@ const ExhibitionDetail = ({ match }) => {
           <Col xl={16}>
             <Review
               reviewList={reviewList}
-              totalScore={exhbnDetail.exhbn.totalScore}
+              totalScore={exhbnDetail.totalScore}
+              exhbnNum={exhbnDetail.exhbnNum}
             />
           </Col>
           <Col xl={8} />

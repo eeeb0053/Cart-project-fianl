@@ -11,7 +11,7 @@ import AgentDetailsPage, {
   } from 'container/user/MyPage/AccountDetails/UserDetails.style';
 import { Menu, Popover } from 'antd';
 import { Container, Image, Heading, Text, Loader, ProfilePicLoader } from 'components/index';
-import { UserAnalysis } from 'container/index'
+import { Analysis, Settings } from 'container/index'
 import {
     ANAL_PAGE, SETTING_PAGE
 } from 'settings/constant';
@@ -48,24 +48,21 @@ const ProfileRoute = (props) => {
     <Container fluid={true}>
       <Route exact
         path={`${match.path}`}
-        component={UserAnalysis}
+        component={Analysis}
       />
       <Route
         path={`${match.path}${SETTING_PAGE}`}
-        component={UserAnalysis}
+        component={Settings}
       />
     </Container>
   );
 };
 
 const Dashboard = (props) => {
-  return (
-    <AgentDetailsPage>
-      <AuthProvider>
+  return (<>
         <ProfileNavigation {...props} />
         <ProfileRoute {...props} />
-      </AuthProvider>
-    </AgentDetailsPage>
+        </>
   );
 }
 

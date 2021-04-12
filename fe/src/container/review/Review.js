@@ -14,10 +14,11 @@ import ReviewWrapper, {
   ModalTitle,
 } from 'container/review/Review.style';
 import { Element } from 'react-scroll';
+import axios from 'axios';
 
 const Search = Input.Search;
 const CommentBox = ( props ) => {
-  const { reviews } = props;
+  const { reviews, exhbnNum } = props;
   return reviews && reviews.length !== 0
     ? reviews.map((singleReview, i) => {
         return (
@@ -28,11 +29,11 @@ const CommentBox = ( props ) => {
           </Fragment>
         );
       })
-    : '검색 결과가 없습니다.';
+    : '리뷰가 없습니다.';
 };
 
 const Review = (props) => {
-  const { reviewList, totalScore } = props
+  const { reviewList, totalScore, exhbnNum } = props
   const {
     statusHeadingStyle,
     filterHeadingStyle,
@@ -67,6 +68,18 @@ const Review = (props) => {
     currentPosts = tmp.slice(indexOfFirst, indexOfLast);
     return currentPosts;
   }
+  const [ scoreCount, setScoreCount ] = useState([])
+  const URL = 'http://localhost:8080/'
+  useEffect(() => {
+    axios.get(URL+'analyses/review/'+props.exhbnNum)
+    .then(resp => {
+      setScoreCount(resp.data)
+    })
+    .catch(err => {
+      alert(`리뷰 통계 실패: `+err)
+      throw err;
+    })
+  }, [])
 
   return (
     <Element name="reviews" className="reviews">
@@ -96,98 +109,56 @@ const Review = (props) => {
               wrapClassName="review_modal"
             >
               <ModalTitle>리뷰를 작성해주세요</ModalTitle>
-              <ReviewForm />
+              <ReviewForm exhbnNum={exhbnNum}/>
             </Modal>
           </RatingSearch>
         </HeaderSection>
         <Row gutter={20}>
           <Col sm={12} lg={9}>
-            <Heading content="점수별 관람객 수" {...filterHeadingStyle} />
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="5점" as="span" {...ratingLabelStyle} />
+          <Heading content="점수별 관람객 수" {...filterHeadingStyle} style={{'margin-bottom':'20px'}}/>
+              <FilterElement>
+                <Text content="5점  " as="span" {...ratingCountStyle} />
+                <RatingWrapper>
+                  <IoIosStar /><IoIosStar /><IoIosStar /><IoIosStar /><IoIosStar />
+                  <Text content={scoreCount.score5} as="span" {...ratingCountStyle} 
+                        style={{'margin-left':'3px'}}/>
+                </RatingWrapper>
+                </FilterElement>
+                <FilterElement>
+                <Text content="4점  " as="span" {...ratingCountStyle} />
+                <RatingWrapper>
+                  <IoIosStar /><IoIosStar /><IoIosStar /><IoIosStar />
+                  <Text content={scoreCount.score4} as="span" {...ratingCountStyle} 
+                        style={{'margin-left':'3px'}}/>
+                </RatingWrapper>
+                </FilterElement>
+                <FilterElement>
+                <Text content="3점  " as="span" {...ratingCountStyle} />
+                <RatingWrapper>
+                  <IoIosStar /><IoIosStar /><IoIosStar />
+                  <Text content={scoreCount.score3} as="span" {...ratingCountStyle} 
+                        style={{'margin-left':'3px'}}/>
+                </RatingWrapper>
+                </FilterElement>
+                <FilterElement>
+                <Text content="2점  " as="span" {...ratingCountStyle} />
+                <RatingWrapper>
+                  <IoIosStar /><IoIosStar />
+                  <Text content={scoreCount.score2} as="span" {...ratingCountStyle} 
+                        style={{'margin-left':'3px'}}/>
+                </RatingWrapper>
+                </FilterElement>
+                <FilterElement>
+                <Text content="1점  " as="span" {...ratingCountStyle} />
                 <RatingWrapper>
                   <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <Text content="172" as="span" {...ratingCountStyle} />
+                  <Text content={scoreCount.score1} as="span" {...ratingCountStyle}
+                        style={{'margin-left':'3px'}} />
                 </RatingWrapper>
-              </Checkbox>
             </FilterElement>
-            {/* End of Filter Element */}
-
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="4점" as="span" {...ratingLabelStyle} />
-                <RatingWrapper>
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStarOutline />
-                  <Text content="92" as="span" {...ratingCountStyle} />
-                </RatingWrapper>
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
-
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="3점" as="span" {...ratingLabelStyle} />
-                <RatingWrapper>
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStarOutline />
-                  <IoIosStarOutline />
-                  <Text content="34" as="span" {...ratingCountStyle} />
-                </RatingWrapper>
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
-
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="2점" as="span" {...ratingLabelStyle} />
-                <RatingWrapper>
-                  <IoIosStar />
-                  <IoIosStar />
-                  <IoIosStarOutline />
-                  <IoIosStarOutline />
-                  <IoIosStarOutline />
-                  <Text content="11" as="span" {...ratingCountStyle} />
-                </RatingWrapper>
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
-          </Col>
-          <Col sm={12} lg={5}>
-            <Heading content="연령대" {...filterHeadingStyle} />
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="전 연령" as="span" {...ratingLabelStyle} />
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
-
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="10대이하" as="span" {...ratingLabelStyle} />
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
-
-            <FilterElement>
-              <Checkbox onChange={onChange}>
-                <Text content="20대" as="span" {...ratingLabelStyle} />
-              </Checkbox>
-            </FilterElement>
-            {/* End of Filter Element */}
           </Col>
         </Row>
-        <CommentBox reviews={currentPosts(reviewList)} />
+        <CommentBox reviews={reviewList}/>
         <Pagination postsPerPage={postsPerPage} totalPosts={reviewList.length} paginate={setCurrentPage}/>
       </ReviewWrapper>
     </Element>
