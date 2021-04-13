@@ -81,8 +81,8 @@ const UpdateReview = (props) => {
 
   return (<>
     { localStorage.getItem("cartuser") == null ||
-     (JSON.parse(localStorage.getItem("cartuser")).username != props.singleReview.username ||
-     JSON.parse(localStorage.getItem("cartuser")).admin == null)  ? <></> :
+     JSON.parse(localStorage.getItem("cartuser")).username != props.singleReview.username ?
+     <></> :
     <>
     <button className="btn" onClick={() => handleModalOpen('review')}>수정</button>
     <Modal
@@ -132,10 +132,13 @@ const UpdateReview = (props) => {
           작성 완료
         </Button>
       </FormControl>
-    </Form></Modal>
-    <button className="cancle-btn" onClick={handleDeleteReview}>삭제</button>
+    </Form></Modal></>
+    }
+    {(localStorage.getItem("cartuser") == null ||
+     (JSON.parse(localStorage.getItem("cartuser")).username != props.singleReview.username) &&
+     JSON.parse(localStorage.getItem("cartuser")).admin == null)  ? <></> :
+    <button className="cancle-btn" onClick={handleDeleteReview}>삭제</button>}
     </>
-    }</>
   )
 };
 

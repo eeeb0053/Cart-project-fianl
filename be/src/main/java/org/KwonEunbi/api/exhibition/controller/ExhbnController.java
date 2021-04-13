@@ -109,8 +109,13 @@ public class ExhbnController{
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ExhbnHallDTO> findByHallNum(@PathVariable long id) {
+	public ResponseEntity<ExhbnHallDTO> findByExhbnNum(@PathVariable long id) {
 		return ResponseEntity.ok(service.findByExhbnNum(id));
+	}
+
+	@GetMapping("/get/{id}")
+	public ResponseEntity<List<ExhbnHallDTO>> findOne(@PathVariable long id) {
+		return ResponseEntity.ok(service.findOne(id));
 	}
 
 	@GetMapping("/find/{id}")

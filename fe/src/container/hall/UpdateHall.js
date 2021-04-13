@@ -87,7 +87,7 @@ const UpdateHall = ({ match }) => {
               htmlFor="hallName"
             >
             <Input name="hallName" value={hallName}
-                  placeholder={hallDetail.hallName} 
+                  placeholder={hallDetail.hallName}
                   onChange = { onChange }/>
             </FormControl>
           </Col>

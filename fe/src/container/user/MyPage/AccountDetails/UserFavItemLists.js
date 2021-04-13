@@ -5,15 +5,20 @@ import { EXHBN_DETAIL_PAGE } from 'settings/constant';
 import axios from 'axios';
 
 const UserFavItemLists = () => {
-  const { data, loadMoreData, loading } = useDataApi('http://localhost:8080/exhbns/topList');
+  const { data, loadMoreData, loading } = useDataApi('');
+  const [ exhbnnum, setExhbnnum ] = useState(602)
   const [ exhbnList, setExhbnList ] = useState([])
-  const favourite_post =
-    data[0] && data[0].favourite_post ? data[0].favourite_post : [];
-  const user = JSON.parse(localStorage.getItem("cartuser"))
 
-  const URL = 'http://localhost:8080/wishlist';
+  const URL = 'http://localhost:8080';
   useEffect(() => {
-    axios.get(URL, {headers: {'Authorization' : 'Bearer '+localStorage.getItem("token")}})
+    axios.get(URL+'/wishlist', {headers: {'Authorization' : 'Bearer '+localStorage.getItem("token")}})
+    .then(resp => {
+      setExhbnnum(resp.data.exhbnNum)
+    })
+    .catch(err => {
+      alert(err)
+    })
+    axios.get(URL+'/exhbns/get/'+exhbnnum, {headers: {'Authorization' : 'Bearer '+localStorage.getItem("token")}})
     .then(resp => {
       setExhbnList(resp.data)
     })

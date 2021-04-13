@@ -16,15 +16,4 @@ public class WishDTO {
     private Exhbn exhbn;
     private UserVO user;
 
-    public WishDTO(long wishNum, long userNum, long exhbnNum){
-        this.wishNum = wishNum;
-        this.userNum = userNum;
-        this.exhbnNum = exhbnNum;
-    }
-
-    public WishDTO(long wishNum, Exhbn exhbn, UserVO user){
-        this.wishNum = wishNum;
-        this.userNum = userNum;
-        this.exhbnNum = exhbnNum;
-    }
 }

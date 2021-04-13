@@ -17,6 +17,12 @@ const Rating = props => {
         ratingView.push(<IoIosStarOutline key={i} />);
       }
     }
+  }else if(rating && rating == 0){
+    ratingView.push(<IoIosStarOutline key={1}/>);
+    ratingView.push(<IoIosStarOutline key={2}/>);
+    ratingView.push(<IoIosStarOutline key={3}/>);
+    ratingView.push(<IoIosStarOutline key={4}/>);
+    ratingView.push(<IoIosStarOutline key={5}/>);
   }
   if (revRating && revRating !== 0) {
     floorValue = Math.floor(revRating);

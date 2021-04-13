@@ -21,6 +21,7 @@ interface ExhbnCustomRepository{
 	public List<ExhbnHallDTO> findByScore();
 	public List<ExhbnHallDTO> findAllInfo();
 	public ExhbnHallDTO findByExhbnNum(long id);
+	public List<ExhbnHallDTO> findOne(long id);
 }
 public interface ExhbnRepository extends JpaRepository<Exhbn, Long>, ExhbnCustomRepository {
 	@Query(value="update exhbns e set e.exhbn_title = :exhbnTitle, e.start_date = :startDate, "

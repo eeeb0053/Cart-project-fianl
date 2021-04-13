@@ -39,7 +39,6 @@ const ReviewList = () => {
       dataIndex: 'regDate',
       key: 'regDate',
       render: Date => Moment(Date).lang("ko").format('YYYY-MM-DD (ddd)'),
-      sorter: (a, b) => Moment(a.date).unix() - Moment(b.date).unix()
     },
   ];
   

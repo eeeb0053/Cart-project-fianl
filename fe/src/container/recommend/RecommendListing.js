@@ -9,12 +9,8 @@ import { EXHBN_DETAIL_PAGE } from 'settings/constant';
 import ListingWrapper, { PostsWrapper } from 'container/exhibition/Listing/Listing.style';
 
 const RecommendListing = ({ location, history }) => {
-  const [ url, setUrl ] = useState('')
-  if(JSON.parse(localStorage.getItem("cartuser").preferGenre == '미디어')){
-    setUrl='http://localhost:8080/recommends/1'
-  }
   const { width } = useWindowSize();
-  const { data, loading, loadMoreData, total } = useDataApi(url);
+  const { data, loading, loadMoreData, total } = useDataApi('');
   let columnWidth = [1 / 1, 1 / 2, 1 / 3, 1 / 4, 1 / 5];
   const user = JSON.parse(localStorage.getItem("cartuser"))
   const [ exhbnList, setExhbnList ] = useState([])

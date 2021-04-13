@@ -75,4 +75,7 @@ public class ExhbnServiceImpl implements ExhbnService {
 	public ExhbnHallDTO findByExhbnNum(long id){
 		return repo.findByExhbnNum(id);
 	}
+	public List<ExhbnHallDTO> findOne(long id){
+		return repo.findOne(id);
+	}
 }

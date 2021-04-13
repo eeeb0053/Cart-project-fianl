@@ -30,7 +30,7 @@ const SearchArea = ({ searchTitleStyle, searchDescriptionStyle }) => {
         <SearchWrapper>
           <Heading
             {...searchTitleStyle}
-            content="Seoul Museum of Art : SeMA"
+            content="C:ART  | Seoul Museum of Art"
           />
           <Text
             {...searchDescriptionStyle}

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Wrapper,  ModalTitle, Form } from 'container/review/Review.style';
 import { FormControl } from 'components/index';
 import { Row, Button, Input, Rate, Divider, Modal } from 'antd';
 import { Rating } from 'components/index';
-import { RatingMeta } from 'container/exhibition/ExhibitionDetail.style';
+import { TextLink } from 'container/booking/Booking.style';
 import Moment from 'moment';
 import 'moment/locale/ko'
+import {EXHBN_DETAIL_PAGE} from 'settings/constant'
 
 const ReviewDetail = ({match}) => {
   const [ reviewDetail, setReviewDetail] = useState([])
@@ -111,7 +112,8 @@ const ReviewDetail = ({match}) => {
             <li><strong>No.</strong> <br />
             <span>{reviewDetail.reviewNum}</span></li><br />
             <li><strong>전시명</strong> <br />
-            <span>{reviewDetail.exhbnTitle}</span></li><br />
+            <Link to={`${EXHBN_DETAIL_PAGE}/${reviewDetail.exhbnNum}`}>
+            <TextLink className="link"> {reviewDetail.exhbnTitle} </TextLink></Link></li>
             <li><strong>별점</strong> <br />
             <span><Rating rating={reviewDetail.score} ratingCount={reviewDetail.score} type="bulk" /></span></li><br />
             <li><strong>내용</strong> <br />

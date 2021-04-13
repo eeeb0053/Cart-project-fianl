@@ -30,7 +30,8 @@ const PopularExhbn = () => {
     limit = 10;
   }
 
-  return (
+  return (<>
+    { posts != null ?
     <Container fluid={true}>
       <SectionTitle
         title={<Heading content="TOP10: 인기 전시" />}
@@ -44,7 +45,7 @@ const PopularExhbn = () => {
         limit={limit}
         placeholder={<PostPlaceholder />}
       />
-    </Container>
+    </Container> : <> 전시 목록이 없습니다. </> } </>
   );
 };
 

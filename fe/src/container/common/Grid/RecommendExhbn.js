@@ -46,7 +46,8 @@ const RecommendExhbn = () => {
     limit = 10;
   }
 
-  return (
+  return (<>
+    { posts != null ?
     <Container fluid={true}>
       <SectionTitle
         title={<Heading content="취향저격: 추천 전시" />}
@@ -60,8 +61,8 @@ const RecommendExhbn = () => {
         limit={limit}
         placeholder={<PostPlaceholder />}
       />
-    </Container>
-  );
+    </Container> : <> 전시 목록이 없습니다. </>}
+  </>);
 };
 
 export default RecommendExhbn;

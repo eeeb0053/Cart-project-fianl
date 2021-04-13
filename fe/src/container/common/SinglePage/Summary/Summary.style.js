@@ -115,7 +115,7 @@ export const ButtonGroup = styled.div`
       }
     }
     &:last-child {
-      margin-left: 99px;
+      margin-left: 145px;
       @media (max-width: 767px) {
         position: relative;
         left: 89px;

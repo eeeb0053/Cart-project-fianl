@@ -37,13 +37,13 @@ const carouselOptions = {
 const HallGrid = () => {
   const { data } = useDataApi('http://localhost:8080/halls');
 
-  return (
+  return (<>
+    { data ?
     <LocationWrapper>
       <Container fluid={true}>
         <SectionTitle
           title={<Heading content="전시관별 모아보기" />}
         />
-
         <CarouselSection>
           {data.length !== 0 ? (
             <GlideCarousel
@@ -71,7 +71,7 @@ const HallGrid = () => {
           )}
         </CarouselSection>
       </Container>
-    </LocationWrapper>
+    </LocationWrapper> : <> 전시관 목록이 없습니다.</>} </>
   );
 };
 

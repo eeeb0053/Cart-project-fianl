@@ -131,6 +131,17 @@ public class ExhbnRepositoryImpl extends QuerydslRepositorySupport implements Ex
 	}
 
 	@Override
+	public List<ExhbnHallDTO> findOne(long id){
+		return qf.select(Projections.bean(ExhbnHallDTO.class,
+				exhbn.exhbnNum, exhbn.hall.hallNum, exhbn.exhbnTitle, exhbn.startDate, exhbn.endDate,
+				exhbn.exhbnGenre, exhbn.exhbnPrice, exhbn.exhbnArtist, exhbn.exhbnContent,
+				exhbn.exhbnImage, exhbn.totalScore, exhbn.hall.hallName))
+				.from(exhbn)
+				.where(exhbn.exhbnNum.eq(id))
+				.fetch();
+	}
+
+	@Override
 	public List<ExhbnHallDTO> findByMedia() {
 		Date nowDate = new Date();
 		return qf.select(Projections.bean(ExhbnHallDTO.class,

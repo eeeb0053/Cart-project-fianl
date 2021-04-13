@@ -42,52 +42,12 @@ const PostGrid = ({exhbnNum, exhbnTitle, exhbnImage, hallName, startDate, endDat
   const [ usernum, setUsernum ] = useState(0)
   const URL = 'http://localhost:8080/wishlist'
 
-  const wishAddHandler = () => {
-    setIsWishAdd(!isWishAdd)
-  }
-  const wishHandler = e => {
-    if(localStorage.getItem("loginuser")){
-      setUsernum(JSON.parse(localStorage.getItem("loginuser").userNum))
-    } else{
-      setUsernum(23)
-    }
-    if (!isWishAdd) {
-      axios({
-        url: URL,
-        method: 'post',
-        headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")},
-        data: { userNum: usernum, exhbnNum }
-      })
-      .then(resp => {
-        alert(`위시리스트에 추가되었습니다!`)
-        setIsWishAdd(true)
-      })
-      .catch(err => {
-        alert(`위시리스트 추가: `+err)
-        throw err;
-      })
-    } else if (isWishAdd) {
-      axios({
-        url: URL+"/"+usernum+"/"+exhbnNum,
-        method: 'delete',
-        headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")},
-      })
-      .then(resp => {
-        alert(`위시리스트에서 삭제되었습니다.`)
-      })
-      .catch(err => {
-        alert(`위시리스트 삭제: `+err)
-        throw err;
-      })
-    }
-  }
-
   return (
     <GridCard
       isCarousel={true}
-      favorite={ <Favourite
+     /*  favorite={ <Favourite
         onClick={ wishHandler }
-        exhbnNum = {exhbnNum}/> }
+        exhbnNum = {exhbnNum}/> } */
       title={<TextLink link={`exhbns/${exhbnNum}`} content={exhbnTitle}/>}
       location={`${hallName}`}
       date={`${Moment(startDate).lang("ko").format('YYYY-MM-DD (ddd)')} 

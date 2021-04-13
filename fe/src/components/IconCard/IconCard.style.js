@@ -4,7 +4,7 @@ import { themeGet } from '@styled-system/theme-get';
 const IconCardWrapper = styled.div`
   border-radius: 4px;
   padding: 38px 36px 30px;
-  background-color: ${themeGet('color.2', '#F7F7F7')};
+  background-color: ${themeGet('color.2', '#cfba34')};
   margin-bottom: 20px;
   text-align: ${(props) => (props.align ? props.align : 'center')};
 

@@ -1,3 +1,4 @@
+  
 import React, { useState , useCallback} from 'react';
 import axios from "axios";
 import { Link, Redirect } from 'react-router-dom';
@@ -12,6 +13,7 @@ import { FieldWrapper, SwitchWrapper, Label } from 'container/user/Auth.style';
 import { HOME_PAGE } from 'settings/constant';
 
 const SignInForm = () => {
+  
   const {control} = useForm();
   const history = useHistory();
   const [userLogin, setUserLogin ] = useState({
@@ -42,10 +44,10 @@ const SignInForm = () => {
       }
     })
     .catch(error => {
-      alert(`아이디 혹은 비밀번호가 일치하지 않습니다.`)
+      alert(error)
     });
   }
- 
+
   return (
     <form >
       <FormControl

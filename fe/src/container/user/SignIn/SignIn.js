@@ -23,8 +23,7 @@ const SignIn = () => {
         />
         <Title>Welcome Back</Title>
         <TitleInfo>로그인 정보를 입력해주세요</TitleInfo>
-        <SignInForm />
-        <Divider>SNS로 로그인하기 </Divider>
+        <SignInForm /><br/>
         <Text>
           계정이 없으신가요?&nbsp;
           <Link to={REGISTRATION_PAGE}>회원가입하기</Link>

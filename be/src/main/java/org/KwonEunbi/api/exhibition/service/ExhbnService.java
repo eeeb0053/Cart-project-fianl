@@ -25,5 +25,6 @@ public interface ExhbnService {
 	public List<ExhbnHallDTO> topList();
 	public List<ExhbnHallDTO> findAllInfo();
 	public ExhbnHallDTO findByExhbnNum(long id);
+	public List<ExhbnHallDTO> findOne(long id);
 	public float totalScore(long l);
 }

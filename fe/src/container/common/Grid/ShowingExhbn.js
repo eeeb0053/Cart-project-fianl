@@ -28,7 +28,8 @@ const ShowingExhbn = () => {
     limit = 10;
   }
 
-  return (
+  return (<>{
+    posts != null ?
     <Container fluid={true}>
       <SectionTitle
         title={<Heading content="진행중인 전시" />}
@@ -43,7 +44,7 @@ const ShowingExhbn = () => {
         limit={limit}
         placeholder={<PostPlaceholder />}
       />
-    </Container>
+    </Container> : <> 전시 목록이 없습니다. </>}</>
   );
 };
 

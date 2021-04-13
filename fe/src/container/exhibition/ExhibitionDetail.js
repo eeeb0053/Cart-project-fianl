@@ -63,7 +63,7 @@ const ExhibitionDetail = ({ match }) => {
       throw err;
     })
   }
-  
+
   return (
     <SinglePageWrapper>
        {localStorage.getItem("cartuser") == null ||

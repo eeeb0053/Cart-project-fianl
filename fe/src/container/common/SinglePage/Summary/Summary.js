@@ -6,6 +6,7 @@ import { RatingMeta } from 'container/common/SinglePage/Summary/Summary.style';
 import { Button, Menu, Dropdown } from 'antd';
 import Moment from 'moment';
 import 'moment/locale/ko'
+import axios from 'axios';
 
 const SocialShareMenu = ( props) => {
 
@@ -35,7 +36,13 @@ const {
   location,
   start, end, genre, price, artist}
 = props;
-
+const [ isWishAdd, setIsWishAdd ] = useState(false)
+const wishHandler = e => {
+  if(localStorage.getItem("cartuser") == null){
+    alert('로그인 후 찜하기가 가능합니다.')
+  }else {
+  }
+}
 return (
         <SummaryWrapper>
           <PosterBox>
@@ -43,7 +50,7 @@ return (
                 <img src={media} alt="" />
             </PosterImage>    
             <ButtonGroup>
-              <Favorite className="ant-btn" content="찜하기" />
+              <Favorite className="ant-btn" content="찜하기" onClick = {wishHandler}/>
               <Dropdown
                 placement="bottomRight"
                 overlay={() => <SocialShareMenu {...props} />}

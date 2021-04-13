@@ -268,15 +268,6 @@ const routes = [
       modules: ['Dashboard'],
     }),
   },
-  {
-    path: RESET_PAGE,
-    component: Loadable({
-      loader: () =>
-        import('container/Reset'),
-      loading: Loading,
-      modules: ['Dashboard'],
-    }),
-  },
 ];
 
 /**

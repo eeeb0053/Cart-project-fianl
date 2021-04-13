@@ -32,7 +32,7 @@ const WishListing = ({match}) => {
       <Fragment>
         <PostsWrapper className={width > 767}>
         <SectionTitle
-          title={<Heading content={exhbnByHall.hallLocation} />}
+          title={<Heading content={exhbnByHall.hallName} />}
         />
           <SectionGrid
             link={EXHBN_DETAIL_PAGE}

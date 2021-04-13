@@ -72,7 +72,6 @@ public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements R
 				review.score, review.user.userNum, review.exhbn.exhbnNum,
 				review.exhbn.exhbnTitle, review.user.username))
 				.from(review).where(review.user.userNum.eq(id))
-				.orderBy(review.reviewNum.desc())
 				.orderBy(review.regDate.desc()).fetch();
 	}
 	@Override

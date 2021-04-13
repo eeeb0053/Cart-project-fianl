@@ -70,7 +70,6 @@ const UpdateExhibition = ({ match }) => {
       throw err;
     })}
   }
-  if(exhbnDetail.exhbn){
     return (
       <form>
         <FormContent>
@@ -209,13 +208,7 @@ const UpdateExhibition = ({ match }) => {
           </div>
         </FormAction>
       </form>
-    );
-  }else{
-    return(
-    <h4>Loading...</h4>
-    )
-  }
-  
+    );  
 };
 
 export default UpdateExhibition;

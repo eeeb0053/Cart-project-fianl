@@ -11,26 +11,20 @@ const Favorite = ({ className, exhbnNum, onClick }) => {
   const addAllClass = ['favorite'];
   var [wishValue] = useToggle(false);
   // className prop checking
-  const [ wishlists, setWishlists] = useState([])
-  if (className) {
-    addAllClass.push(className);
-  }
-  const URL = 'http://localhost:8080/wishlist'
-  useEffect(() => {
-    axios.get(URL, {headers: {'Content-Type': 'application/json', 'Authorization' : 'Bearer '+localStorage.getItem("token")}})
-    .then(resp => {
-      setWishlists(resp.data)
-    })
-  }, [])
 
-  const handelClick = event => {
-    toggleHandler();
-    onClick(!toggleValue);
+  const handleClick = e => {
+    if(localStorage.getItem("cartuser")){
+      toggleHandler();
+      onClick(!toggleValue);
+    }else{
+      onClick(toggleValue);
+    }
+
   };
 
   return (
     <FavoriteWrapper
-      onClick={() => handelClick()}
+      onClick={() => handleClick()}
       className={`${addAllClass.join(' ')} ${toggleValue ? 'active' : ''}`}
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.64 18.232">

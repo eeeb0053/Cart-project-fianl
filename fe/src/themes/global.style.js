@@ -271,6 +271,8 @@ const GlobalStyle = createGlobalStyle`
         border: 0;
         border-radius: 4px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: relative;
+        left: 6rem;
     
         .ant-menu-item {
           margin: 0;
