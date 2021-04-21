@@ -45,7 +45,9 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
-
+bootWar{
+	archiveName("ROOT.war")
+}
 test {
 	useJUnitPlatform()
 }

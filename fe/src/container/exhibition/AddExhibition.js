@@ -70,6 +70,9 @@ const AddExhibition = ({ })  => {
               label="전시 포스터"
               htmlFor="exhbnImage"
               >
+            <label for="input-file">
+            전시사진 선택
+            </label>
             <FileInput onFileChange={onFileChange} name={file.fileName}/>
             </FormControl>
           </Col>

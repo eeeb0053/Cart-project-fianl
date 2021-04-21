@@ -4,6 +4,12 @@ import { themeGet } from '@styled-system/theme-get';
 const Wrapper = styled.div`
   margin-bottom: 24px;
 
+  label {
+    border-radius: 4px;
+    color: #687175;
+    cursor: pointer;
+  }
+  
   .field-label {
     display: block;
     color: ${themeGet('text.0', '#2C2C2C')};

@@ -9,15 +9,7 @@ import org.KwonEunbi.api.user.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import org.KwonEunbi.api.user.domain.UserVO;
 
@@ -98,6 +90,15 @@ public class UserController {
 		}
 		return ResponseEntity.ok(userService.save(u));
 	}
+
+	@PutMapping("/profileImage/{id}")
+	public ResponseEntity<String> editImage(@PathVariable long id, @RequestBody UserVO user){
+		System.out.println(user.getUserImage());
+		UserVO u = userService.getOne(id);
+		u.setUserImage(user.getUserImage());
+		return ResponseEntity.ok(userService.save(u));
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable long id){
 		return ResponseEntity.ok(userService.delete(id));

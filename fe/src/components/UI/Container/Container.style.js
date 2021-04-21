@@ -3,6 +3,12 @@ import styled, { css } from 'styled-components';
 const ContainerWrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
+
+  label {
+    border-radius: 4px;
+    color: #687175;
+    cursor: pointer;
+  }
   ${(props) =>
     props.fullWidth &&
     css`

@@ -28,9 +28,11 @@ const UpdateUser = (props) => {
             url: URL+user.userNum,
             method: 'put',
             headers: {'Content-Type':'application/json','Authorization': 'Bearer '+localStorage.getItem("token")},
-            data: {userNum: user.userNum, username, password, name: user.name, email, gender:user.gender, birthday:user.birthday, phoneNumber, admin:user.admin, preferGenre}
+            data: {userNum: user.userNum, username, password, name: user.name, email, gender:user.gender, birthday:user.birthday, 
+                   phoneNumber, admin:user.admin, preferGenre}
         }).then(res => {
             alert(`수정되었습니다.`)
+            getChangeUser()
             history.push('/profile/update-user')
             window.location.reload()
         }).catch(err => {
@@ -53,6 +55,24 @@ const UpdateUser = (props) => {
         }).catch(err => {
             alert(err)
         })}
+    }
+    const getChangeUser = () => {
+      axios({
+        url: URL+user.userNum, 
+        method: 'get',
+        headers: {
+          'Content-Type'  : 'application/json',
+          'Authorization' : 'Bearer '+localStorage.getItem("token")
+        }
+      }) 
+      .then(resp => {
+        localStorage.setItem("cartuser", JSON.stringify(resp.data))
+        window.location.reload()
+      })
+      .catch(err => {
+        alert(`프로필사진 등록 실패`+err)
+        throw err;
+      })
     }
     useEffect(()=>editUser(), [])
     return (

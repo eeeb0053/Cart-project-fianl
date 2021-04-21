@@ -23,10 +23,13 @@ const ImageInput = ({ imageUploader, name, onFileChange }) => {
           name="file"
           className="input"
           onChange={onChange}
+          id="input-file"
+          style={{display:"none"}}
         />
+        { JSON.parse(localStorage.getItem("cartuser")).admin != null ?
         <div className="previewProfilePic" >
                 <img className="playerProfilePic_home_tile" src={picture}></img>
-        </div>
+        </div> : <></>}
       </div>
     );
   };

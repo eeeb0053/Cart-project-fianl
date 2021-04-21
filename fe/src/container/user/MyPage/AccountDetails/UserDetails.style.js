@@ -49,6 +49,7 @@ export const ProfileImage = styled.div`
 `;
 
 export const ProfileInformationArea = styled.div`
+  margin-top: 20px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

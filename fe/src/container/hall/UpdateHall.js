@@ -76,6 +76,9 @@ const UpdateHall = ({ match }) => {
               label="전시관 이미지"
               htmlFor="hallImage"
             >
+            <label for="input-file">
+            전시관사진 선택
+            </label>
             <FileInput onFileChange={onFileChange} name={file.fileName}/>
             </FormControl>
           </Col>
